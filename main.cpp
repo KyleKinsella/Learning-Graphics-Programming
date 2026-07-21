@@ -103,6 +103,8 @@ int main(void) {
     /* Make the window's context current */
     glfwMakeContextCurrent(window);
     
+    glfwSwapInterval(1);
+    
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
 		std::cerr << "Failed to initialize GLAD\n";
 		return -1;
@@ -142,14 +144,30 @@ int main(void) {
 	unsigned int shader = createShader(vs, fs);
 	glCall(glUseProgram(shader));
 	
+	glCall(int location = glGetUniformLocation(shader, "u_Color"));
+	ASSERT(location != -1);
+	glCall(glUniform4f(location, 0.8f, 0.3f, 0.8f, 1.0f));
+	
+	float r = 0.0f;
+	float increment = 0.05f;
+	
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window)) {
 		
         /* Render here */
         glCall(glClear(GL_COLOR_BUFFER_BIT));
-        		
+        	
+        glCall(glUniform4f(location, r, 0.3f, 0.8f, 1.0f));
+        	
 		// this is our draw call for drawing our square (that is made up of two triangles)
-        glCall(glDrawElements(GL_TRIANGLES, 6, GL_INT, nullptr));
+        glCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
+        
+        if (r > 1.0f)
+			increment = -0.05f;
+		else if (r < 0.0f) 
+			increment = 0.05f;
+			
+		r += increment;
         
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
