@@ -26,6 +26,30 @@ I have learned some of the terms used in graphics programming, such as:
 	2. Fragment Shader - this shader, runs once for every pixel.
 4. OpenGL - an API for talking to our GPU. Initially, I thought this was a piece of software that you needed to download (I was wrong again), but after watching 'Welcome to OpenGL' the first
 video in the OpenGL playlist, I found out that OpenGL, is already on our GPU. 
+5. Uniforms - getting data from our CPU (our c++ code), into our shader (our code for the GPU) and use it like a variable. Uniforms are set per draw, you can set up a uniform up before you wish
+to draw your element, aka: 'glDrawElements(...)' or 'glDrawArrays(...)'
 
 ### But how is it on my GPU already ? 
 The manufacturer, that created my laptop (Intel), when they were designing the GPU, they put OpenGL onto my GPU. 
+
+### Do I like Graphics Programming ?
+As I have only started doing graphics programming for roughly 3 days or so, I cannot say too much just yet... but from my experience so far, I kinda like it. For example, yesterday (July 20th, 2026),
+I was watching one of the videos in the OpenGL playlist and I was coding it all out myself manually, but I was not really enjoying it, at all. But today I am starting to really enjoy it.
+
+My biggest complaint about graphics programming, is that - you have to do a lot of configuring and coding, but at the end of it, it does not look like much. For example, currently my 'main.cpp' file
+is 184 lines of code and all we have done is draw a square, that flashes from a kinda pink-ish color, to blue and blue back to the pick-ish color...
+
+### Learning by Doing
+The best way for me to learn something is to do the following:
+1. Watch the video.
+2. Pause it.
+3. Write the code out manually, compile the program, make sure it works, if not debug it until it works. 
+4. Then continue into the video.
+
+### Linux
+Most people like to use the Windows but as I am a developer / Engineer and I don't like Windows, I am doing all of this work on Linux, specifically Fedora Linux.
+
+## Why ?
+Well, Linux is open-source, it is incredebly fast, no spyware, no bloatware, no AI slop pushed in our face, brilliant community and so much more. And I really enjoy using Linux.
+
+So, this means, I do everything via my terminal, meaning I can do things very fast and efficiently.
