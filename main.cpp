@@ -5,6 +5,27 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+#include <signal.h>
+
+#define ASSERT(x) if (!(x)) raise(x);
+#define glCall(x) glClearError();\
+	x;\
+	ASSERT(glLogCall(#x, __FILE__, __LINE__))
+
+// clear all of our errors 
+static void glClearError() {
+	while (glGetError() != GL_NO_ERROR);
+}
+
+// then we check to see if we have found any errors, the errors are coming from the below function:
+static bool glLogCall(const char* function, const char* file, int line) {
+	while (GLenum error = glGetError()) {
+		std::cout << "[OpenGL Error] (" << error << "):" << function << " " << file << ":" << line << std::endl;
+		return false;
+	}
+	
+	return true;
+}
 
 static std::string readShaderFile(const std::string& filePath) {
 	std::ifstream file(filePath);
@@ -51,15 +72,15 @@ static unsigned int createShader(const std::string& vertexShader, const std::str
 	unsigned int vs = compileShader(GL_VERTEX_SHADER, vertexShader);
 	unsigned int fs = compileShader(GL_FRAGMENT_SHADER, fragmentShader);
 	
-	glAttachShader(program, vs);
-	glAttachShader(program, fs);
+	glCall(glAttachShader(program, vs));
+	glCall(glAttachShader(program, fs));
 	
-	glLinkProgram(program);
+	glCall(glLinkProgram(program));
 	
-	glValidateProgram(program);
+	glCall(glValidateProgram(program));
 	
-	glDeleteShader(vs);
-	glDeleteShader(fs);
+	glCall(glDeleteShader(vs));
+	glCall(glDeleteShader(fs));
 	
 	return program;
 }
@@ -87,6 +108,7 @@ int main(void) {
 		return -1;
 	}
 	
+	// this is our vertex buffer
 	float positions[] = {
 		-0.5f, -0.5f, // 0
 		 0.5f, -0.5f, // 1
@@ -94,40 +116,41 @@ int main(void) {
 		-0.5f, 0.5f // 3
 	};
 	
+	// this is our index buffer
 	unsigned int indices[] = {
 		0, 1, 2,
 		2, 3, 0
 	};
 	
 	unsigned int buffer;
-	glGenBuffers(1, &buffer);
-	glBindBuffer(GL_ARRAY_BUFFER, buffer);
-	glBufferData(GL_ARRAY_BUFFER, 6 * 2 * sizeof(float), positions, GL_STATIC_DRAW);
+	glCall(glGenBuffers(1, &buffer));
+	glCall(glBindBuffer(GL_ARRAY_BUFFER, buffer));
+	glCall(glBufferData(GL_ARRAY_BUFFER, 6 * 2 * sizeof(float), positions, GL_STATIC_DRAW));
 	
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0);
+	glCall(glEnableVertexAttribArray(0));
+	glCall(glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0));
 	
 	// index buffer object (aka, ibo)
 	unsigned int ibo;
-	glGenBuffers(1, &ibo);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(unsigned int), indices, GL_STATIC_DRAW);
+	glCall(glGenBuffers(1, &ibo));
+	glCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo));
+	glCall(glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(unsigned int), indices, GL_STATIC_DRAW));
 	
 	std::string vs = readShaderFile("vertexShader.shader");
 	std::string fs = readShaderFile("fragmentShader.shader");
 	
 	unsigned int shader = createShader(vs, fs);
-	glUseProgram(shader);
+	glCall(glUseProgram(shader));
 	
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window)) {
 		
         /* Render here */
-        glClear(GL_COLOR_BUFFER_BIT);
-
+        glCall(glClear(GL_COLOR_BUFFER_BIT));
+        		
 		// this is our draw call for drawing our square (that is made up of two triangles)
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
-
+        glCall(glDrawElements(GL_TRIANGLES, 6, GL_INT, nullptr));
+        
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
 
@@ -135,7 +158,7 @@ int main(void) {
         glfwPollEvents();
     }
     
-    glDeleteProgram(shader);
+    glCall(glDeleteProgram(shader));
 
     glfwTerminate();
     return 0;
