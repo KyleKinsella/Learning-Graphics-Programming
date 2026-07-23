@@ -93,6 +93,10 @@ int main(void) {
         return -1;
 	}
 	
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	
     /* Create a windowed mode window and its OpenGL context */
     window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
     if (!window) {
@@ -124,13 +128,18 @@ int main(void) {
 		2, 3, 0
 	};
 	
+	// vertex array object
+	unsigned int vao;
+	glCall(glGenVertexArrays(1, &vao));
+	glCall(glBindVertexArray(vao));
+	
 	unsigned int buffer;
 	glCall(glGenBuffers(1, &buffer));
 	glCall(glBindBuffer(GL_ARRAY_BUFFER, buffer));
-	glCall(glBufferData(GL_ARRAY_BUFFER, 6 * 2 * sizeof(float), positions, GL_STATIC_DRAW));
+	glCall(glBufferData(GL_ARRAY_BUFFER, 4 * 2 * sizeof(float), positions, GL_STATIC_DRAW));
 	
 	glCall(glEnableVertexAttribArray(0));
-	glCall(glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0));
+	glCall(glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0)); // this line of code links the 'buffer' to the 'vao'...
 	
 	// index buffer object (aka, ibo)
 	unsigned int ibo;
@@ -148,8 +157,16 @@ int main(void) {
 	ASSERT(location != -1);
 	glCall(glUniform4f(location, 0.8f, 0.3f, 0.8f, 1.0f));
 	
+	// here we are un-binding everything
+	glCall(glBindVertexArray(0));
+	glCall(glUseProgram(0));
+	glCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
+	glCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
+	
 	float r = 0.0f;
 	float increment = 0.05f;
+	
+	std::cout << glGetString(GL_VERSION) << std::endl;
 	
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window)) {
@@ -157,7 +174,23 @@ int main(void) {
         /* Render here */
         glCall(glClear(GL_COLOR_BUFFER_BIT));
         	
+        // bind out shader
+        glCall(glUseProgram(shader));
+        
+        // set up our uniforms
         glCall(glUniform4f(location, r, 0.3f, 0.8f, 1.0f));
+        
+        // we bind our vertex buffer
+        //~ glCall(glBindBuffer(GL_ARRAY_BUFFER, buffer));
+        
+        // we set up the layout of that buffer
+        //~ glCall(glEnableVertexAttribArray(0));
+		//~ glCall(glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0));
+		
+		glCall(glBindVertexArray(vao));
+		
+		// we bind our index buffer
+		glCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo));
         	
 		// this is our draw call for drawing our square (that is made up of two triangles)
         glCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
