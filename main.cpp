@@ -5,27 +5,10 @@
 #include <fstream>
 #include <string>
 #include <sstream>
-#include <signal.h>
 
-#define ASSERT(x) if (!(x)) raise(x);
-#define glCall(x) glClearError();\
-	x;\
-	ASSERT(glLogCall(#x, __FILE__, __LINE__))
-
-// clear all of our errors 
-static void glClearError() {
-	while (glGetError() != GL_NO_ERROR);
-}
-
-// then we check to see if we have found any errors, the errors are coming from the below function:
-static bool glLogCall(const char* function, const char* file, int line) {
-	while (GLenum error = glGetError()) {
-		std::cout << "[OpenGL Error] (" << error << "):" << function << " " << file << ":" << line << std::endl;
-		return false;
-	}
-	
-	return true;
-}
+#include "renderer.h"
+#include "VertexBuffer.h"
+#include "IndexBuffer.h"
 
 static std::string readShaderFile(const std::string& filePath) {
 	std::ifstream file(filePath);
@@ -133,19 +116,12 @@ int main(void) {
 	glCall(glGenVertexArrays(1, &vao));
 	glCall(glBindVertexArray(vao));
 	
-	unsigned int buffer;
-	glCall(glGenBuffers(1, &buffer));
-	glCall(glBindBuffer(GL_ARRAY_BUFFER, buffer));
-	glCall(glBufferData(GL_ARRAY_BUFFER, 4 * 2 * sizeof(float), positions, GL_STATIC_DRAW));
+	VertexBuffer vb(positions, 4 * 2 * sizeof(float));
 	
 	glCall(glEnableVertexAttribArray(0));
 	glCall(glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0)); // this line of code links the 'buffer' to the 'vao'...
 	
-	// index buffer object (aka, ibo)
-	unsigned int ibo;
-	glCall(glGenBuffers(1, &ibo));
-	glCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo));
-	glCall(glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(unsigned int), indices, GL_STATIC_DRAW));
+	IndexBuffer ib(indices, 6);
 	
 	std::string vs = readShaderFile("vertexShader.shader");
 	std::string fs = readShaderFile("fragmentShader.shader");
@@ -166,8 +142,6 @@ int main(void) {
 	float r = 0.0f;
 	float increment = 0.05f;
 	
-	std::cout << glGetString(GL_VERSION) << std::endl;
-	
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window)) {
 		
@@ -180,17 +154,11 @@ int main(void) {
         // set up our uniforms
         glCall(glUniform4f(location, r, 0.3f, 0.8f, 1.0f));
         
-        // we bind our vertex buffer
-        //~ glCall(glBindBuffer(GL_ARRAY_BUFFER, buffer));
-        
-        // we set up the layout of that buffer
-        //~ glCall(glEnableVertexAttribArray(0));
-		//~ glCall(glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0));
-		
+        // bind our vertex array object (vao)
 		glCall(glBindVertexArray(vao));
 		
-		// we bind our index buffer
-		glCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo));
+		// bind our index buffer	
+		ib.bind();
         	
 		// this is our draw call for drawing our square (that is made up of two triangles)
         glCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
@@ -210,7 +178,7 @@ int main(void) {
     }
     
     glCall(glDeleteProgram(shader));
-
+    
     glfwTerminate();
     return 0;
 }
