@@ -9,6 +9,7 @@
 #include "renderer.h"
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
+#include "VertexArray.h"
 
 static std::string readShaderFile(const std::string& filePath) {
 	std::ifstream file(filePath);
@@ -112,14 +113,18 @@ int main(void) {
 	};
 	
 	// vertex array object
-	unsigned int vao;
-	glCall(glGenVertexArrays(1, &vao));
-	glCall(glBindVertexArray(vao));
+	//~ unsigned int vao;
+	//~ glCall(glGenVertexArrays(1, &vao));
+	//~ glCall(glBindVertexArray(vao));
 	
+	VertexArray va;
 	VertexBuffer vb(positions, 4 * 2 * sizeof(float));
+	VertexBufferLayout layout;
+	layout.Push<float>(2);
+	va.addBuffer(vb, layout);
 	
-	glCall(glEnableVertexAttribArray(0));
-	glCall(glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0)); // this line of code links the 'buffer' to the 'vao'...
+	//~ glCall(glEnableVertexAttribArray(0));
+	//~ glCall(glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0)); 
 	
 	IndexBuffer ib(indices, 6);
 	
@@ -134,7 +139,8 @@ int main(void) {
 	glCall(glUniform4f(location, 0.8f, 0.3f, 0.8f, 1.0f));
 	
 	// here we are un-binding everything
-	glCall(glBindVertexArray(0));
+	//~ glCall(glBindVertexArray(0));
+	va.unBind();
 	glCall(glUseProgram(0));
 	glCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
 	glCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
@@ -155,7 +161,9 @@ int main(void) {
         glCall(glUniform4f(location, r, 0.3f, 0.8f, 1.0f));
         
         // bind our vertex array object (vao)
-		glCall(glBindVertexArray(vao));
+		//~ glCall(glBindVertexArray(vao));
+		
+		va.bind();
 		
 		// bind our index buffer	
 		ib.bind();
