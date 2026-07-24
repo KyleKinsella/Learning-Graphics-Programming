@@ -3,11 +3,11 @@
 
 #include <iostream>
 
-#include "renderer.h"
-#include "VertexBuffer.h"
-#include "IndexBuffer.h"
-#include "VertexArray.h"
-#include "Shader.h"
+#include "Renderer/renderer.h"
+#include "VertexBuffer/VertexBuffer.h"
+#include "IndexBuffer/IndexBuffer.h"
+#include "VertexArray/VertexArray.h"
+#include "Shader/Shader.h"
 
 int main(void) {
     GLFWwindow* window;
@@ -61,7 +61,10 @@ int main(void) {
 	
 	IndexBuffer ib(indices, 6);
 	
-	Shader shader("vertexShader.shader", "fragmentShader.shader");
+	const std::string vs = "../res/shaders/vertexShader.shader";
+	const std::string fs = "../res/shaders/fragmentShader.shader";
+	
+	Shader shader(vs, fs);
 	shader.bind();
 	shader.setUniform4f("u_Color", 0.8f, 0.3f, 0.8f, 1.0f);
 	
