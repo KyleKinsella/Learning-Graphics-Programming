@@ -1,7 +1,10 @@
 #pragma once
 
 #include "../VertexBuffer/VertexBuffer.h"
-#include "../VertexBufferLayout/VertexBufferLayout.h"
+//~ #include "../VertexBufferLayout/VertexBufferLayout.h"
+
+// forward declare ing class... (due to domino of renderer includes)
+class VertexBufferLayout;
 
 class VertexArray {
 public:

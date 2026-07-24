@@ -6,7 +6,8 @@
 #include "Shader.h"
 #include "../Renderer/renderer.h"
 
-Shader::Shader(const std::string& filePath1, const std::string& filePath2) : m_filePath1(filePath1), m_filePath2(filePath2), m_RendererId(0) {
+//~ m_filePath1(filePath1), m_filePath2(filePath2), 
+Shader::Shader(const std::string& filePath1, const std::string& filePath2) : m_RendererId(0) {
 	std::string vs = readShaderFile(filePath1);
 	std::string fs = readShaderFile(filePath2);
 	

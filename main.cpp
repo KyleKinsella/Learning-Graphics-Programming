@@ -8,6 +8,7 @@
 #include "IndexBuffer/IndexBuffer.h"
 #include "VertexArray/VertexArray.h"
 #include "Shader/Shader.h"
+#include "VertexBufferLayout/VertexBufferLayout.h"
 
 int main(void) {
     GLFWwindow* window;
@@ -74,6 +75,8 @@ int main(void) {
 	ib.unBind();
 	shader.unBind();
 	
+	Renderer renderer;
+	
 	float r = 0.0f;
 	float increment = 0.05f;
 	
@@ -81,23 +84,16 @@ int main(void) {
     while (!glfwWindowShouldClose(window)) {
 		
         /* Render here */
-        glCall(glClear(GL_COLOR_BUFFER_BIT));
+        renderer.clear();
         	
         // bind our shader
         shader.bind();
         
         // set up our uniforms
         shader.setUniform4f("u_Color", r, 0.3f, 0.8f, 1.0f);
-        
-        // bind our vertex array object (vao)
-		va.bind();
-		
-		// bind our index buffer	
-		ib.bind();
         	
-		// this is our draw call for drawing our square (that is made up of two triangles)
-        glCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
-        
+        renderer.draw(va, ib, shader);
+        		    
         if (r > 1.0f)
 			increment = -0.05f;
 		else if (r < 0.0f) 

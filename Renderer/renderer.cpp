@@ -16,3 +16,16 @@ bool glLogCall(const char* function, const char* file, int line) {
 	
 	return true;
 }
+
+void Renderer::clear() const {
+	glCall(glClear(GL_COLOR_BUFFER_BIT));
+}
+
+void Renderer::draw(const VertexArray& va, const IndexBuffer& ib, const Shader& shader) const {
+	shader.bind();
+	va.bind();
+	ib.bind();
+
+	// this is our draw call for drawing our square (that is made up of two triangles)
+	glCall(glDrawElements(GL_TRIANGLES, ib.getCount(), GL_UNSIGNED_INT, nullptr));
+}
