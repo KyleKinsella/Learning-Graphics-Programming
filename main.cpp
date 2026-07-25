@@ -11,6 +11,9 @@
 #include "VertexBufferLayout/VertexBufferLayout.h"
 #include "Textures/Texture.h"
 
+#include "vendor/glm/glm.hpp"
+#include "vendor/glm/gtc/matrix_transform.hpp"
+
 int main(void) {
     GLFWwindow* window;
 
@@ -68,12 +71,15 @@ int main(void) {
 	
 	IndexBuffer ib(indices, 6);
 	
+	glm::mat4 proj = glm::ortho(-2.0f, 2.0f, -1.5f, 1.5f, -1.0f, 1.0f);
+	
 	const std::string vs = "../res/shaders/vertexShader.shader";
 	const std::string fs = "../res/shaders/fragmentShader.shader";
 	
 	Shader shader(vs, fs);
 	shader.bind();
 	shader.setUniform4f("u_Color", 0.8f, 0.3f, 0.8f, 1.0f);
+	shader.setUniformMat4f("u_MVP", proj);
 	
 	Texture texture("../res/textures/sekiro.png");
 	texture.bind();
