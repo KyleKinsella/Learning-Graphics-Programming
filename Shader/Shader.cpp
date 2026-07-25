@@ -84,22 +84,26 @@ void Shader::unBind() const {
 	glCall(glUseProgram(0));
 }
 
+void Shader::setUniform1i(const std::string& name, int value) {
+	glCall(glUniform1i(getUniformLocation(name), value));
+}
+
 void Shader::setUniform4f(const std::string& name, float v0, float v1, float v2, float v3) {
 	glCall(glUniform4f(getUniformLocation(name), v0, v1, v2, v3));
 }
 
-unsigned int Shader::getUniformLocation(const std::string& name) {
+int Shader::getUniformLocation(const std::string& name) {
 	
-	//~ if (m_UniformLocationCache.find(name) != m_UniformLocationCache.end()) {
-		//~ return m_UniformLocationCache[name];
-	//~ }
+	if (m_UniformLocationCache.find(name) != m_UniformLocationCache.end()) {
+		return m_UniformLocationCache[name];
+	}
 	
-	glCall(unsigned int location = glGetUniformLocation(m_RendererId, name.c_str()));
+	glCall(int location = glGetUniformLocation(m_RendererId, name.c_str()));
 	if (location == -1) {
 		std::cout << "Warning: uniform '" << name << "' doesn't exist!" << std::endl;
 	} 
 	
-	//~ m_UniformLocationCache[name] = location;
+	m_UniformLocationCache[name] = location;
 		
 	return location;
 }
