@@ -27,7 +27,7 @@ int main(void) {
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	
     /* Create a windowed mode window and its OpenGL context */
-    window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
+    window = glfwCreateWindow(960, 540, "Hello World", NULL, NULL);
     if (!window) {
         glfwTerminate();
         return -1;
@@ -45,10 +45,10 @@ int main(void) {
 	
 	// this is our vertex buffer
 	float positions[] = {
-		-0.5f, -0.5f, 0.0f, 0.0f, // 0
-		 0.5f, -0.5f, 1.0f, 0.0f, // 1
-		 0.5f, 0.5f, 1.0f, 1.0f, // 2
-		-0.5f, 0.5f, 0.0f, 1.0f // 3
+		100.0f, 100.0f, 0.0f, 0.0f, // 0
+		200.0f, 100.0f, 1.0f, 0.0f, // 1
+		200.0f, 200.0f, 1.0f, 1.0f, // 2
+		100.0f, 200.0f, 0.0f, 1.0f // 3
 	};
 	
 	// this is our index buffer
@@ -71,7 +71,13 @@ int main(void) {
 	
 	IndexBuffer ib(indices, 6);
 	
-	glm::mat4 proj = glm::ortho(-2.0f, 2.0f, -1.5f, 1.5f, -1.0f, 1.0f);
+	// all this does is it converts our positions array to be in the range of -1 - 1.
+	glm::mat4 proj = glm::ortho(0.0f, 960.0f, 0.0f, 540.0f, -1.0f, 1.0f);
+	glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(-100, 0, 0));
+	glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(200, 200, 0));
+	
+	// the multiplication goes from right to left
+	glm::mat4 mvp = proj * view * model;
 	
 	const std::string vs = "../res/shaders/vertexShader.shader";
 	const std::string fs = "../res/shaders/fragmentShader.shader";
@@ -79,7 +85,7 @@ int main(void) {
 	Shader shader(vs, fs);
 	shader.bind();
 	shader.setUniform4f("u_Color", 0.8f, 0.3f, 0.8f, 1.0f);
-	shader.setUniformMat4f("u_MVP", proj);
+	shader.setUniformMat4f("u_MVP", mvp);
 	
 	Texture texture("../res/textures/sekiro.png");
 	texture.bind();
