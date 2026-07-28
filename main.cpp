@@ -1,10 +1,6 @@
 #include "glad/include/glad/glad.h"
 #include <GLFW/glfw3.h>
 
-#include <iostream>
-
-#include "vendors/glm/glm.hpp"
-#include "vendors/glm/gtc/matrix_transform.hpp"
 #include "vendors/imgui/imgui.h"
 #include "vendors/imgui/imgui_impl_opengl3.h"
 #include "vendors/imgui/imgui_impl_glfw.h"
@@ -14,7 +10,7 @@
 
 int main(void) {
     GLFWwindow* window;
-
+    
     /* Initialize the library */
     if (!glfwInit()) {
         return -1;

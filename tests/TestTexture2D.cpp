@@ -35,7 +35,7 @@ namespace test {
 		m_Shader = std::make_unique<Shader>(vs, fs);
 		
 		m_Shader->bind();
-		m_Shader->setUniform4f("u_Color", 0.8f, 0.3f, 0.8f, 1.0f);
+		//~ m_Shader->setUniform4f("u_Color", 0.8f, 0.3f, 0.8f, 1.0f);
 		
 		m_Texture = std::make_unique<Texture>("../res/textures/sekiro.png");
 		m_Shader->setUniform1i("u_Texture", 0);
@@ -51,33 +51,27 @@ namespace test {
 		glCall(glClearColor(0.0f, 0.0f, 0.0f, 1.0f));
 		glCall(glClear(GL_COLOR_BUFFER_BIT));
 		
-		Renderer renderer;
+		glm::mat4 modelA = glm::translate(glm::mat4(1.0f), m_TranslationA);
+		viewTexture(modelA);
 		
-		m_Texture->bind();
-		
-		{	
-			glm::mat4 model = glm::translate(glm::mat4(1.0f), m_TranslationA);
-			glm::mat4 mvp = m_proj * m_view * model; // the multiplication goes from right to left
-			
-			m_Shader->bind();
-			
-			m_Shader->setUniformMat4f("u_MVP", mvp);
-			renderer.draw(*m_VAO, *m_IndexBuffer, *m_Shader);
-		}
-		
-        {	
-			glm::mat4 model = glm::translate(glm::mat4(1.0f), m_TranslationB);
-			glm::mat4 mvp = m_proj * m_view * model; // the multiplication goes from right to left
-			
-			m_Shader->bind();
-			
-			m_Shader->setUniformMat4f("u_MVP", mvp);	
-			renderer.draw(*m_VAO, *m_IndexBuffer, *m_Shader);
-		}
+		glm::mat4 modelB = glm::translate(glm::mat4(1.0f), m_TranslationB);	
+		viewTexture(modelB);
 	}
 	
 	void TestTexture2D::onImGuiRender() {
 		ImGui::SliderFloat3("Translation A", &m_TranslationA.x, 0.0f, 960.0f);
 		ImGui::SliderFloat3("Translation B", &m_TranslationB.x, 0.0f, 960.0f);
+	}
+	
+	void TestTexture2D::viewTexture(glm::mat4 model) {
+		Renderer renderer;
+		m_Texture->bind();
+		
+		glm::mat4 mvp = m_proj * m_view * model; // the multiplication goes from right to left
+			
+		m_Shader->bind();
+			
+		m_Shader->setUniformMat4f("u_MVP", mvp);	
+		renderer.draw(*m_VAO, *m_IndexBuffer, *m_Shader);
 	}
 }

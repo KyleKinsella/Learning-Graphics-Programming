@@ -31,5 +31,7 @@ namespace test {
 			
 			glm::mat4 m_proj, m_view;
 			glm::vec3 m_TranslationA, m_TranslationB;
+			
+			void viewTexture(glm::mat4 model);
 	};
 }
