@@ -3,18 +3,14 @@
 
 #include <iostream>
 
-#include "Renderer/renderer.h"
-#include "VertexBuffer/VertexBuffer.h"
-#include "IndexBuffer/IndexBuffer.h"
-#include "VertexArray/VertexArray.h"
-#include "Shader/Shader.h"
-#include "VertexBufferLayout/VertexBufferLayout.h"
-#include "Textures/Texture.h"
+#include "vendors/glm/glm.hpp"
+#include "vendors/glm/gtc/matrix_transform.hpp"
+#include "vendors/imgui/imgui.h"
+#include "vendors/imgui/imgui_impl_opengl3.h"
+#include "vendors/imgui/imgui_impl_glfw.h"
 
-#include "vendor/glm/glm.hpp"
-#include "vendor/glm/gtc/matrix_transform.hpp"
-#include "vendor/imgui/imgui_impl_opengl3.h"
-#include "vendor/imgui/imgui_impl_glfw.h"
+#include "tests/TestClearColor.h"
+#include "tests/TestTexture2D.h"
 
 int main(void) {
     GLFWwindow* window;
@@ -45,70 +41,24 @@ int main(void) {
 		return -1;
 	}
 	
-	// this is our vertex buffer
-	float positions[] = {
-		-50.0f, -50.0f, 0.0f, 0.0f, // 0
-		50.0f, -50.0f, 1.0f, 0.0f, // 1
-		50.0f, 50.0f, 1.0f, 1.0f, // 2
-		-50.0f, 50.0f, 0.0f, 1.0f // 3
-	};
-	
-	// this is our index buffer
-	unsigned int indices[] = {
-		0, 1, 2,
-		2, 3, 0
-	};
-	
-	// blending
-	glCall(glEnable(GL_BLEND));
-	glCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
-	
-	// vertex array object
-	VertexArray va;
-	VertexBuffer vb(positions, 4 * 4 * sizeof(float));
-	VertexBufferLayout layout;
-	layout.Push<float>(2);
-	layout.Push<float>(2);
-	va.addBuffer(vb, layout);
-	
-	IndexBuffer ib(indices, 6);
-	
-	// all this does is it converts our positions array to be in the range of -1 - 1.
-	glm::mat4 proj = glm::ortho(0.0f, 960.0f, 0.0f, 540.0f, -1.0f, 1.0f);
-	glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 0));
-	
-	const std::string vs = "../res/shaders/vertexShader.shader";
-	const std::string fs = "../res/shaders/fragmentShader.shader";
-	
-	Shader shader(vs, fs);
-	shader.bind();
-	shader.setUniform4f("u_Color", 0.8f, 0.3f, 0.8f, 1.0f);
-	
-	Texture texture("../res/textures/sekiro.png");
-	texture.bind();
-	shader.setUniform1i("u_Texture", 0);
-	
-	// here we are un-binding everything
-	va.unBind();
-	vb.unBind();
-	ib.unBind();
-	shader.unBind();
-	
 	Renderer renderer;
 	
 	ImGui::CreateContext();
 	ImGui_ImplGlfw_InitForOpenGL(window, true);
-	ImGui_ImplOpenGL3_Init("#version 330 core"); // match your GLSL version
+	ImGui_ImplOpenGL3_Init("#version 330 core");
 	ImGui::StyleColorsDark();
 	
-	glm::vec3 translationA(200, 200, 0);
-	glm::vec3 translationB(400, 200, 0);
+	test::Test* currentTest = nullptr;
+	test::TestMenu* testMenu = new test::TestMenu(currentTest);
+	currentTest = testMenu;
 	
-	float r = 0.0f;
-	float increment = 0.05f;
+	testMenu->RegisterTest<test::TestClearColor>("Clear Color");
+	testMenu->RegisterTest<test::TestTexture2D>("2D Texture");
 	
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window)) {
+		
+		glCall(glClearColor(0.0f, 0.0f, 0.0f, 1.0f));
 		
         /* Render here */
         renderer.clear();
@@ -117,40 +67,22 @@ int main(void) {
         ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
 		
-        {	
-			glm::mat4 model = glm::translate(glm::mat4(1.0f), translationA);
-			glm::mat4 mvp = proj * view * model; // the multiplication goes from right to left
+		if (currentTest) {
+			currentTest->onUpdate(0.0f);
+			currentTest->onRender();
+			ImGui::Begin("Test");
 			
-			shader.bind();
+			if (currentTest != testMenu && ImGui::Button("<-")) {
+				delete currentTest;
+				currentTest = testMenu;
+			}
 			
-			shader.setUniformMat4f("u_MVP", mvp);
-			renderer.draw(va, ib, shader);
+			currentTest->onImGuiRender();
+			
+			ImGui::End();
 		}
 		
-        {	
-			glm::mat4 model = glm::translate(glm::mat4(1.0f), translationB);
-			glm::mat4 mvp = proj * view * model; // the multiplication goes from right to left
-			
-			shader.bind();
-			
-			shader.setUniformMat4f("u_MVP", mvp);	
-			renderer.draw(va, ib, shader);
-		}
-		
-        if (r > 1.0f)
-			increment = -0.05f;
-		else if (r < 0.0f) 
-			increment = 0.05f;
-					
-		r += increment;
-		
-		{
-			ImGui::SliderFloat3("Translation A", &translationA.x, 0.0f, 960.0f);
-			ImGui::SliderFloat3("Translation B", &translationB.x, 0.0f, 960.0f);
-			ImGui::Text("Hello World!");
-		}
-		
-		ImGui::Render();
+		ImGui::Render();		
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
         
         /* Swap front and back buffers */
@@ -159,6 +91,10 @@ int main(void) {
         /* Poll for and process events */
         glfwPollEvents();
     }
+    
+    delete currentTest;
+    if (currentTest != testMenu) 
+		delete testMenu;
     
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
