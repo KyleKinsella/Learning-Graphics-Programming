@@ -89,7 +89,15 @@ or,
 -->
 
 ## My OpenGL Project (Current)
-TODO
+I did not know what project idea to do for my OpenGL project, so, I asked ChatGPT for some ideas and he gave me lots of ideas, but one of the ideas he gave me I really liked! 
+
+So, what am I going to build ?
+A 'Bouncing Ball Simulator'. I know this seems very easy and even stupid, but I don't want to create anything to complex, I just want to learn OpenGL by doing and after doing the OpenGL series 
+with The Cherno. This is going to be hard (and scary, lol) but, in return I will learn lots and this is the best way to learn how to build something from scratch.
+
+## Project Contents
+Note: I will show images of the project as I develop this small project! 
+This will be filled in, once I have completed the project or the project is work in progesss.
 
 ## My Ray Tracing Project (later on...)
 TODO
