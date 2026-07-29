@@ -35,10 +35,10 @@ namespace test {
 		m_Shader = std::make_unique<Shader>(vs, fs);
 		
 		m_Shader->bind();
-		//~ m_Shader->setUniform4f("u_Color", 0.8f, 0.3f, 0.8f, 1.0f);
+		m_Shader->setUniform4f("u_Color", 0.8f, 0.3f, 0.8f, 1.0f);
 		
 		m_Texture = std::make_unique<Texture>("../res/textures/sekiro.png");
-		m_Shader->setUniform1i("u_Texture", 0);
+		//~ m_Shader->setUniform1i("u_Texture", 0);
 	}
 	
 	TestTexture2D::~TestTexture2D() {

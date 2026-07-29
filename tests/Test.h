@@ -24,7 +24,8 @@ namespace test {
 			
 			template<typename T>
 			void RegisterTest(const std::string& name) {
-				std::cout << "Registering test: " << name << std::endl;								
+				std::cout << "Registering test: " << name << std::endl;
+				std::cout << "Type passed in is: " << __PRETTY_FUNCTION__ << std::endl;
 				m_Tests.push_back(std::make_pair(name, []() { return new T(); }));
 			}
 			

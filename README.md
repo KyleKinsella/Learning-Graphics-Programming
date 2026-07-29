@@ -53,3 +53,50 @@ Most people like to use the Windows but as I am a developer / Engineer and I don
 Well, Linux is open-source, it is incredebly fast, no spyware, no bloatware, no AI slop pushed in our face, brilliant community and so much more. And I really enjoy using Linux.
 
 So, this means, I do everything via my terminal, meaning I can do things very fast and efficiently.
+
+## An Update - What have I done for the last while ?
+On the July 19th 2026, I started an OpenGL series with 'The Cherno'. And each day I would do either one, two or three (and sometimes even more than three) vidoes per day 
+and I simply did this until I finished this series. I have successfully completed the OpenGL series on - July 29th 2026. It took me 9 days to complete the entire OpenGL series.
+
+## So, What is Next ?
+Before I even started the OpenGL series, I said to myself: 'When I am done the OpenGL series, I am going to create my own project for OpenGL, BUT, I need to implement everything I learned in the OpenGL
+series in this project'! So, I need to create a project that contains the following:
+1. Vertex Buffer.
+2. Index Buffer.
+3. Shaders (Vertex & Fragment).
+4. Sending data from the CPU to the GPU (aka, uniforms).
+5. Renderering something on the screen.
+6. Textures.
+7. Blending.
+8. Maths, Projection, Model View Projection (MVP) matrices.
+9. ImGui - this is optional.
+10. Test framework - something we created in the series (this is also optional).
+11. Batch Renderering - the code 'The Cherno' wrote in these videos is different to the code we did throughout the OpenGL series, so I have not done this, so I might do this OR I might 
+not do it at all.
+
+## Into the Future
+Once I have completed my OpenGL project (I have not even started it yet, heck I don't even have a project idea, yet, lol), I plan to go through 'The Cherno's' series on 'Ray Tracing'.
+Do one or more videos each day and at the end of that series do my very own Ray Tracing project, based on everything I will learn in that series.
+
+Once the 'Ray Tracing' series and my project is complete, I might or might not do 'The Cherno's' game engine series... If I do it, I will do the same process as I am going to do for my OpenGL
+project and soon enough ray tracing project. If I don't do the game engine series, I am not exactly sure what I will do (as of right now, July 29th, 2026).
+
+<!--
+I might do one of the following:
+1. I will create my own game, with OpenGL and Ray Tracing. 
+or,
+2. 
+-->
+
+## My OpenGL Project (Current)
+TODO
+
+## My Ray Tracing Project (later on...)
+TODO
+
+## Game Engine Series ?!
+Do or !Do ?!
+
+<!--
+## I'm a Pro Now... 
+-->
