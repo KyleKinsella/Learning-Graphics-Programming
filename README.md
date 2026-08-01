@@ -99,6 +99,18 @@ with The Cherno. This is going to be hard (and scary, lol) but, in return I will
 Note: I will show images of the project as I develop this small project! 
 This will be filled in, once I have completed the project or the project is work in progesss.
 
+## Things are getting hot in here...
+Since I've completed the OpenGL series, I have been reading over the codebase that we created in the OpenGL series, before I get started on my own OpenGL project.
+I have spent the last 3 days reading over the codebase today is the - August 1st, 2026.
+
+## Getting Going
+I plan to start my project on Monday (August 3rd, 2026), but as this day comes closer I am starting to get nervous. The main reason to why I am getting 
+nervous is for two main reasons:
+1. Rembering the OpenGL API and what Parameters to use...
+2. Math - how do I know if I should use a 'vec2', 'vec3', 'mat2' or 'mat4'...
+
+But I guess the best way to get batter at anything is it practise! So on Monday, I plan to jump right into it and see how things go.
+
 ## My Ray Tracing Project (later on...)
 TODO
 
