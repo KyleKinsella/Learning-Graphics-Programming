@@ -3,6 +3,8 @@
 
 #include <iostream>
 
+#include "Circle/Circle.h"
+
 int main(void) {
     GLFWwindow* window;
 
@@ -49,7 +51,10 @@ int main(void) {
 	glGenBuffers(1, &index);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * 2 * sizeof(float), indexes, GL_STATIC_DRAW);
-
+	
+	// Make a circle object
+	Circle circle(0, 1, 0, glm::vec3(0.2, 0.3, 0.8));
+	
     //~ /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window)) {
         
