@@ -4,6 +4,7 @@
 #include <iostream>
 
 #include "Circle/Circle.h"
+#include "Shader/Shader.h"
 
 int main(void) {
     GLFWwindow* window;
@@ -54,6 +55,13 @@ int main(void) {
 	
 	// Make a circle object
 	Circle circle(0, 1, 0, glm::vec3(0.2, 0.3, 0.8));
+	
+	Shader shader("resources/shaders/VertexShader.glsl", "resources/shaders/FragmentShader.glsl");
+	
+	//~ Shader shader; //~ shader.
+	//~ const std::string vs = "resources/shaders/VertexShader.glsl";
+	//~ std::string one = shader.readShaderFile(vs);
+	//~ std::cout << one << std::endl;
 	
     //~ /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window)) {

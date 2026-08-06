@@ -4,6 +4,9 @@
 
 #include "../Color/Color.h"
 
+// a circle will also have a thickness and a fade - in the future!
+// i will also have a vector of multiple circles... so i can iterate over each circle...
+
 class Circle {
 	public:
 		Circle(int origin, int radius, int velocity, glm::vec3 color); 
