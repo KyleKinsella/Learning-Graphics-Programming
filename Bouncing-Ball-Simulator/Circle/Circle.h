@@ -2,7 +2,8 @@
 
 //~ #include <string> // leave for now, will probably need it in the near future
 
-#include "../Color/Color.h"
+//~ #include "../Color/Color.h"
+#include "../vendors/glm/glm.hpp"
 
 // a circle will also have a thickness and a fade - in the future!
 // i will also have a vector of multiple circles... so i can iterate over each circle...

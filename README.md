@@ -124,7 +124,8 @@ So, the next day (the 4th of August, 2026), I did not do anything other than pla
 "I could just abandon my OpenGL project, because, I did little to nothing on it"! But then I thought, well then what was the point of learning
 opengl, that was a waste of time. But roughly 30 mins later I thought, I dont want to just 'forget' about opengl, and ray racing, so I did a small bit 
 of looking up, 'can you do ray tracing in opengl?' and turns out, you absoultly can but for some odd reason it is not recommended. So, this 
-actually brightnened up my night, a lot!!
+actually brightnened up my night, a lot!! And I really enjoyed working in C++ again (I did it in college, but its been a while) and its very fun coding
+in C++, that is another reason, to why I want to keep working on this project and future graphics projects :) !!!!
 
 But I did not stop there, I went onto 'duckduckgo' (the search engine) and I searched for the following: "how to do ray tracing in opengl", and 
 I was shown a handful of github projects and blogs of how they did ray tracing in opengl!
