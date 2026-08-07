@@ -1,112 +1,84 @@
 #include "glad/include/glad/glad.h"
 #include <GLFW/glfw3.h>
 
-//~ #include "vendors/imgui/imgui.h"
-//~ #include "vendors/imgui/imgui_impl_opengl3.h"
-//~ #include "vendors/imgui/imgui_impl_glfw.h"
+#include <iostream>
 
-//~ #include "tests/TestClearColor.h"
-#include "tests/TestTexture2D.h"
+#include "Circle/Circle.h"
+#include "Shader/Shader.h"
 
 int main(void) {
     GLFWwindow* window;
-    
+
     /* Initialize the library */
-    if (!glfwInit()) {
+    if (!glfwInit())
         return -1;
-	}
-	
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	
+
     /* Create a windowed mode window and its OpenGL context */
-    window = glfwCreateWindow(960, 540, "Hello World", NULL, NULL);
+    window = glfwCreateWindow(640, 480, "Bouncing Ball Simulator", NULL, NULL);
     if (!window) {
         glfwTerminate();
         return -1;
     }
-    
+
     /* Make the window's context current */
     glfwMakeContextCurrent(window);
     
-    glfwSwapInterval(1);
-    
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
 		std::cerr << "Failed to initialize GLAD\n";
 		return -1;
 	}
+    
+    float positions[] {
+		-0.5f, -0.5f,
+		0.0f, 0.5f,
+		0.5f, -0.5f,
+		-0.5f, 0.5f	
+	};
+		
+	float indexes[] {
+		0, 1, 2,
+		2, 3, 0 
+	};
+		
+	unsigned int buffer;
+	glGenBuffers(1, &buffer);
+	glBindBuffer(GL_ARRAY_BUFFER, buffer);
+	glBufferData(GL_ARRAY_BUFFER, 8 * 2 * sizeof(float), positions, GL_STATIC_DRAW);
 	
-	Renderer renderer;
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0);
 	
-	//~ ImGui::CreateContext();
-	//~ ImGui_ImplGlfw_InitForOpenGL(window, true);
-	//~ ImGui_ImplOpenGL3_Init("#version 330 core");
-	//~ ImGui::StyleColorsDark();
+	unsigned int index;
+	glGenBuffers(1, &index);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * 2 * sizeof(float), indexes, GL_STATIC_DRAW);
 	
-	//~ test::Test* currentTest = nullptr;
-	//~ test::TestMenu* testMenu = new test::TestMenu(currentTest);
-	//~ currentTest = testMenu;
+	//~ glEnableVertexAttribArray(1);
+	//~ glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 3, 0);
 	
-	//~ testMenu->RegisterTest<test::TestClearColor>("Clear Color");
-	//~ testMenu->RegisterTest<test::TestTexture2D>("2D Texture");
+	Circle circle(0, 1, 0, glm::vec3(0.2, 0.3, 0.8));
 	
-	//~ test::TestClearColor tcc;
-	test::TestTexture2D texture2D;
+	Shader shader("resources/shaders/VertexShader.glsl", "resources/shaders/FragmentShader.glsl");
+	shader.bind();
 	
-    /* Loop until the user closes the window */
+    //~ /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window)) {
-		
-		//~ glCall(glClearColor(0.0f, 0.0f, 0.0f, 1.0f));
-		
-        /* Render here */
-        renderer.clear();
         
-      
-        //~ ImGui_ImplOpenGL3_NewFrame();
-        //~ ImGui_ImplGlfw_NewFrame();
-		//~ ImGui::NewFrame();
-		
-		//~ tcc.onRender();
-		//~ tcc.onImGuiRender();
-		
-		texture2D.onRender();
-        //~ texture2D.onImGuiRender();
-        	
-		
-		//~ if (currentTest) {
-			//~ currentTest->onUpdate(0.0f);
-			//~ currentTest->onRender();
-			//~ ImGui::Begin("Test");
-			
-			//~ if (currentTest != testMenu && ImGui::Button("<-")) {
-				//~ delete currentTest;
-				//~ currentTest = testMenu;
-			//~ }
-			
-			//~ currentTest->onImGuiRender();
-			
-			//~ ImGui::End();
-		//~ }
-		
-		//~ ImGui::Render();		
-		//~ ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+		/* Render here */
+        glClear(GL_COLOR_BUFFER_BIT);
         
-        /* Swap front and back buffers */
+        //~ shader.bind();
+        //~ shader.unBind();
+        glDrawArrays(GL_TRIANGLES, 0, 3);
+                
+		/* Swap front and back buffers */
         glfwSwapBuffers(window);
 
         /* Poll for and process events */
         glfwPollEvents();
     }
-    
-    //~ delete currentTest;
-    //~ if (currentTest != testMenu) 
-		//~ delete testMenu;
-    
-    //~ ImGui_ImplOpenGL3_Shutdown();
-    //~ ImGui_ImplGlfw_Shutdown();
-    //~ ImGui::DestroyContext();
-	
+
     glfwTerminate();
+    //~ shader.unBind();
     return 0;
 }
