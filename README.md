@@ -95,9 +95,32 @@ So, what am I going to build ?
 A 'Bouncing Ball Simulator'. I know this seems very easy and even stupid, but I don't want to create anything to complex, I just want to learn OpenGL by doing and after doing the OpenGL series 
 with The Cherno. This is going to be hard (and scary, lol) but, in return I will learn lots and this is the best way to learn how to build something from scratch.
 
-## Project Contents
+## Project Contents (so far)
 Note: I will show images of the project as I develop this small project! 
 This will be filled in, once I have completed the project or the project is work in progesss.
+
+The project is early doors at the moment there is not much done (to the eye), but what happens on the backend is very important. The project currently has the following:
+- Vertex Buffer.
+- Index Buffer.
+- Shaders (Vertex & Fragment).
+- My own types called (There will be more to come):
+	- Circle: this is what a ball is going to consist of, such as: (origin, radius, velocity, color, etc).
+	- Shader: this is my code for reading a shader file, compiling and creating a shader.
+
+## Project Images
+Below is the first image of the project so far:
+![My OpenGL Project so far](https://github.com/KyleKinsella/Learning-Graphics-Programming/blob/main/project-images/Screenshot%20From%202026-08-07%2021-31-14.png)
+
+As you can see in the image above is not a cicle/ball, just yet. I am very aware of this, but i have learned a lot from the OpenGL YouTube series by The Cherno. And I have spent two days
+designing my code-base, such that: its easy to read and undertand the data-flow of my application.
+
+## Project Contents (to be added)
+- Uniforms.
+- Textures.
+- Maths, Projection, Model View Projection (MVP) matrices, Physics.
+- An interactive GUI, for play testing the project.
+- An input system, for example: press the 'spacebar' button and your ball goes into the air.
+- Collision checking - has a ball hit our box or the end our of window.
 
 ## Things are getting hot in here...
 Since I've completed the OpenGL series, I have been reading over the codebase that we created in the OpenGL series, before I get started on my own OpenGL project.
