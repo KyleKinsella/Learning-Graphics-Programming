@@ -112,42 +112,41 @@ nervous is for two main reasons:
 But I guess the best way to get batter at anything is it practise! So on Monday, I plan to jump right into it and see how things go.
 
 ## A bit of a Story
-On Monday (the 3rd of August, 2026), I planned to start my OpenGL project, but I had only started on my project for about 43 mins and lets just say 
-the rest of my day did not go good at all, subsequently I did not do any more work on the project (I got little to nothing done)!
+On Monday (August 3rd, 2026), I planned to start my OpenGL project, but I had only started working on my project for about 43 minutes and let's just say 
+the rest of my day did not go good at all, subsequently, I did not do any more work on the project (I got little to nothing done)!
 
-So, after this happened I got quite depressed and annoyed, so I said to myself, "I am not going to do this OpenGL project anymore, it's a waste of time!". 
-And then I did something I should have not done, I watched 'an intro to ray tracing' and the second video in the series by the cherno.
-And in that video, he mentions that he is going to use the 'Vulkan' graphics api, for the ray tracing series
-(I have heard how hard Vulkan is from tokyospliff, and some other content creators), so I said to myself, "I am not going to do that series"!!! 
+So, after this happened I got quite depressed and annoyed, so I said to myself: "I am not going to do this OpenGL project anymore, it's a waste of time". 
+And then I did something I should have not done, I watched the first two videos in the Ray Tracing series by 'The Cherno'.
+And in that video, he mentions that he is going to use the 'Vulkan' graphics API, for the Ray Tracing series
+(I have heard how hard Vulkan is from tokyospliff and some other content creators), so I said to myself: "I am not going to do that series". 
 
-So, the next day (the 4th of August, 2026), I did not do anything other than play Xbox and chill. But around 9 or 10 pm I said to myself:
-"I could just abandon my OpenGL project, because, I did little to nothing on it"! But then I thought, well then what was the point of learning
-opengl, that was a waste of time. But roughly 30 mins later I thought, I dont want to just 'forget' about opengl, and ray racing, so I did a small bit 
-of looking up, 'can you do ray tracing in opengl?' and turns out, you absoultly can but for some odd reason it is not recommended. So, this 
-actually brightnened up my night, a lot!! And I really enjoyed working in C++ again (I did it in college, but its been a while) and its very fun coding
-in C++, that is another reason, to why I want to keep working on this project and future graphics projects :) !!!!
+So, the next day (August 4th, 2026), I did not do anything other than play Xbox and chill. But around nine or ten pm I said to myself:
+"I could just abandon my OpenGL project, because, I did little to nothing on it". But then I thought, well then what was the point of learning
+OpenGL, that was a waste of time. But roughly 30 minutes later I thought: I don't want to just forget about OpenGL and Ray Tracing, so I did a small bit 
+of research - 'can you do ray tracing in opengl?' and turns out, you absoultly can. But for some odd reason it is not recommended. So, this 
+actually brightnened up my night, a lot! And I really enjoyed working in C++ again (I did it in college, but its been a while) and its very fun coding
+in C++, that is another reason, to why I want to keep working on this project and future graphics projects :).
 
-But I did not stop there, I went onto 'duckduckgo' (the search engine) and I searched for the following: "how to do ray tracing in opengl", and 
-I was shown a handful of github projects and blogs of how they did ray tracing in opengl!
+But I did not stop there, I went onto 'DuckDuckGo' (the search engine) and I searched for the following: "how to do ray tracing in opengl" and 
+I was shown a handful of github projects and blogs of how they did Ray Tracing in OpenGL.
 
-Then I went to youtube and searched for the following: "ray tracing opengl c++". And I was shown a few videos, but I scrolled down a few
+Then I went to YouTube and searched for the following: "ray tracing opengl c++". And I was shown a few videos, but I scrolled down a few
 videos and I found a video by the cherno, called: "how to render circles". And let me tell you something, I couldn't have been any happier!
 
 ## Why was I so happy ?
-Well, I am trying to make a 'Bouncy Ball Simulator', and I was trying to figure it out on Monday - how do i represent cicles in my vertex buffer ?
-And well this video is a brilliant resource!!!!
+Well, I am trying to make a 'Bouncy Ball Simulator' and I was trying to figure it out on Monday - how do i represent cicles in my vertex buffer ? And well this video is a brilliant resource!
 
 ## So, the main thing is you don't ever give up (things happen for a reason)!
-In life we have good and bad days, but turns out the bad days actually can help use grow bigger and stronger. At the end of the day
+In life we have good and bad days, but turns out, the bad days actually can help use grow bigger and stronger. At the end of the day
 we are human, we have up's and down's, we make mistakes and we makes good projects and idea's, but all that matters is that we continue forward, always! 
-For example, I could have just said "fuck it", fuck this, and I kinda did, but after doing some reflecting, thinking and 
-a small bit of research, turns out my night go much better! And now I am going to work on my OpenGL project for the next while (until it is done)!
+For example, I could have just said "fuck it", fuck this (I kinda did), but after doing some reflecting, thinking and 
+a small bit of research, turns out my night got much better! And now I am going to work on my OpenGL project for the next while (until it is done) and then I will attack Ray Tracing!
 
 ## Summary (of the story)
-1. Monday: Planned to start my project on Monday (August 3rd), things we wrong. 
-Got depressed and very angry, and found out that the ray tracing series is in 'Vulkan'!
-2. Tuesday: Took it easy, did some thinking, reflecting and research and found very useful information.
-3. Wednesday (today): back working on the project and back learning!
+1. Monday (August 3rd): Planned to start my project on Monday (August 3rd), things we wrong. 
+Got depressed and very angry, found out that the Ray Tracing series is in 'Vulkan'...
+2. Tuesday (August 4th): Took it easy, did some thinking, reflecting and research and found very useful information.
+3. Wednesday (August 5th): back working on the project and back learning!
 
 ## My Ray Tracing Project (later on...)
 TODO
