@@ -3,6 +3,7 @@
 #include <string>
 
 #include "../glad/include/glad/glad.h"
+#include "../vendors/glm/glm.hpp"
 
 class Shader {
 public:
@@ -18,8 +19,8 @@ public:
 	
 	// Uniforms
 	int getUniformName(const std::string& uniformName);
-	void sendUniformValue(const std::string& uniformName, float v0, float v1, float v2);
+	void sendUniformValue(const std::string& uniformName, glm::vec3 vec);
 		
 private:
-	unsigned int m_RenderId;	
+	unsigned int m_RenderId;
 };

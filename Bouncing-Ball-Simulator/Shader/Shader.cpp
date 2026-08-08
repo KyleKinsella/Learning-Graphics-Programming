@@ -2,6 +2,7 @@
 
 #include <fstream>
 #include <iostream>
+#include <vector>
 
 Shader::Shader(const std::string& vertexShader, const std::string& fragmentShader) {
 	std::string vs = readShaderFile(vertexShader);
@@ -101,6 +102,6 @@ int Shader::getUniformName(const std::string& uniformName) {
 	return loc;
 }
 
-void Shader::sendUniformValue(const std::string& uniformName, float v0, float v1, float v2) {
-	glUniform3f(getUniformName(uniformName), v0, v1, v2);
+void Shader::sendUniformValue(const std::string& uniformName, glm::vec3 vec) {	
+	glUniform3f(getUniformName(uniformName), vec.x, vec.y, vec.z);
 }

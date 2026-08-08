@@ -6,6 +6,10 @@
 #include "Circle/Circle.h"
 #include "Shader/Shader.h"
 
+#define SCREEN_WIDTH 640
+#define SCREEN_HEIGHT 480
+#define NAME "Bouncing Ball Simulator"
+
 int main(void) {
     GLFWwindow* window;
 
@@ -14,7 +18,7 @@ int main(void) {
         return -1;
 
     /* Create a windowed mode window and its OpenGL context */
-    window = glfwCreateWindow(640, 480, "Bouncing Ball Simulator", NULL, NULL);
+    window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, NAME, NULL, NULL);
     if (!window) {
         glfwTerminate();
         return -1;
@@ -56,11 +60,14 @@ int main(void) {
 	//~ glEnableVertexAttribArray(1);
 	//~ glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 3, 0);
 	
-	Circle circle(0, 1, 0, glm::vec3(0.2, 0.3, 0.8));
+	glm::vec3 circleColor = glm::vec3(0.2, 0.3, 0.8);
+	Circle circle(0, 1, 0, circleColor);
 	
 	Shader shader("resources/shaders/VertexShader.glsl", "resources/shaders/fragmentTestShader.glsl");
 	shader.bind();
 	
+	glm::vec3 data(SCREEN_WIDTH, SCREEN_HEIGHT, 1);
+		
     //~ /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window)) {
         
@@ -68,8 +75,8 @@ int main(void) {
         glClear(GL_COLOR_BUFFER_BIT);
         
 		shader.bind();
-        shader.sendUniformValue("iResolution", 640.0f, 480.0f, 1.0f);
-        shader.sendUniformValue("color", 1.0f, 0.0f, 0.67f);
+        shader.sendUniformValue("iResolution", data);
+        shader.sendUniformValue("color", circleColor);
         
         glDrawArrays(GL_TRIANGLES, 0, 3);
         
