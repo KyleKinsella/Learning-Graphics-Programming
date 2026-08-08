@@ -58,7 +58,7 @@ int main(void) {
 	
 	Circle circle(0, 1, 0, glm::vec3(0.2, 0.3, 0.8));
 	
-	Shader shader("resources/shaders/VertexShader.glsl", "resources/shaders/FragmentShader.glsl");
+	Shader shader("resources/shaders/VertexShader.glsl", "resources/shaders/fragmentTestShader.glsl");
 	shader.bind();
 	
     //~ /* Loop until the user closes the window */
@@ -67,10 +67,12 @@ int main(void) {
 		/* Render here */
         glClear(GL_COLOR_BUFFER_BIT);
         
-        //~ shader.bind();
-        //~ shader.unBind();
+		shader.bind();
+        shader.sendUniformValue("iResolution", 640.0f, 480.0f, 1.0f);
+        shader.sendUniformValue("color", 1.0f, 0.0f, 0.67f);
+        
         glDrawArrays(GL_TRIANGLES, 0, 3);
-                
+        
 		/* Swap front and back buffers */
         glfwSwapBuffers(window);
 
@@ -79,6 +81,5 @@ int main(void) {
     }
 
     glfwTerminate();
-    //~ shader.unBind();
     return 0;
 }

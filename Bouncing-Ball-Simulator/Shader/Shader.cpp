@@ -41,10 +41,12 @@ unsigned int Shader::compileShader(unsigned int typeOfShader, const std::string&
 		//std::cout << "An error has occured while trying to compile your " << (typeOfShader == GL_VERTEX_SHADER) ? "Vertex Shader." : "Fragment Shader.";// << std::endl;
 		std::cout << msg << std::endl;
 	
-		return 1;
+		//~ return 1;
+		
+		return 0;
 	}
 	
-	glUseProgram(type);
+	//~ glUseProgram(type);
 	return type;
 }
 
@@ -87,4 +89,18 @@ std::string Shader::readShaderFile(const std::string& fileName) {
 	
 	file.close();	
 	return shaderSource;
+}
+
+int Shader::getUniformName(const std::string& uniformName) {
+	int loc = glGetUniformLocation(m_RenderId, uniformName.c_str());
+	
+	if (loc == -1) {
+		std::cout << "Warning: uniform '" << uniformName << "' doesn't exist!" << std::endl;
+	} 
+	
+	return loc;
+}
+
+void Shader::sendUniformValue(const std::string& uniformName, float v0, float v1, float v2) {
+	glUniform3f(getUniformName(uniformName), v0, v1, v2);
 }
