@@ -125,10 +125,12 @@ The project is early doors at the moment there is not much done (to the eye), bu
 Below is the first image of the project so far:
 
 Image 1:
+
 ![Image 1](https://github.com/KyleKinsella/Learning-Graphics-Programming/blob/main/project-images/Screenshot%20From%202026-08-07%2021-31-14.png)
 
 Image 2:
-![My OpenGL Project so far]()
+
+![My OpenGL Project so far](https://github.com/KyleKinsella/Learning-Graphics-Programming/blob/main/project-images/Screenshot%20From%202026-08-08%2020-23-01.png)
 
 As you can see in the image above is not a cicle/ball, just yet. I am very aware of this, but i have learned a lot from the OpenGL YouTube series by The Cherno. And I have spent two days
 designing my code-base, such that: its easy to read and undertand the data-flow of my application.
@@ -201,10 +203,6 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
     float apsect = iResolution.x / iResolution.y;
     uv.x *= apsect;
     
-    //fragColor.rg = uv;
-    
-    //return;
-    
     fragColor.rg = uv;
     fragColor.b = 0.0;
     
@@ -219,7 +217,7 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
     col *= vec3(smoothstep(thickness + fade, thickness, distance));
     
     fragColor.rgb = col;
-    fragColor.rgb *= vec3(0.2, 0.3, 0.8); // blue circle   0.8 - for b (aka, blue)!
+    fragColor.rgb *= vec3(0.2, 0.3, 0.8); // blue circle
 }
 ```
 
