@@ -95,6 +95,20 @@ So, what am I going to build ?
 A 'Bouncing Ball Simulator'. I know this seems very easy and even stupid, but I don't want to create anything to complex, I just want to learn OpenGL by doing and after doing the OpenGL series 
 with The Cherno. This is going to be hard (and scary, lol) but, in return I will learn lots and this is the best way to learn how to build something from scratch.
 
+## Problems & Challanges & Solution's & Answer's
+My first big problem that i had to face was sending data from my C++ code (CPU side) to OpenGL (GPU side), this is known as a uniform variable. I was sending 2 or 3 uniform variables, while the window was open, but for some
+reason I kept getting this error:
+
+- Warning: uniform 'iResolution' doesn't exist!
+
+And i was very confused because I had set-up everything to work perfectly for my uniforms. So, i spent roughly around 2-3 hours last night (August 7th, 2026) and around 4 hours today (August 8th, 2026) I eventually found the culprit!
+I did some research and I found this: https://wikis.khronos.org/opengl/GLSL_:_common_mistakes. I had a read and aparently if you send over a uniform variable to your fragment shader and you use that variable for processing but you 
+don't use that uniform in the output color, the GLSL compiler will optimize it out! When I read this, I was very angry because, i spent 4 hours today and 2-3 hours yesterday and all along my code was right but because of the error, 
+i got, i was under the impression that i had a problem with how i was sending my uniforms to my GPU, but this was not the problem at all, it was the GLSL compiler optimzing my fragment shader code to remove it because it was 
+not used in the output color (a incredebly stupid design descision, glsl team).
+
+See Image 2 to view the project so far.
+
 ## Project Contents (so far)
 Note: I will show images of the project as I develop this small project! 
 This will be filled in, once I have completed the project or the project is work in progesss.
@@ -109,7 +123,12 @@ The project is early doors at the moment there is not much done (to the eye), bu
 
 ## Project Images
 Below is the first image of the project so far:
-![My OpenGL Project so far](https://github.com/KyleKinsella/Learning-Graphics-Programming/blob/main/project-images/Screenshot%20From%202026-08-07%2021-31-14.png)
+
+Image 1:
+![Image 1](https://github.com/KyleKinsella/Learning-Graphics-Programming/blob/main/project-images/Screenshot%20From%202026-08-07%2021-31-14.png)
+
+Image 2:
+![My OpenGL Project so far]()
 
 As you can see in the image above is not a cicle/ball, just yet. I am very aware of this, but i have learned a lot from the OpenGL YouTube series by The Cherno. And I have spent two days
 designing my code-base, such that: its easy to read and undertand the data-flow of my application.
@@ -170,6 +189,42 @@ a small bit of research, turns out my night got much better! And now I am going 
 Got depressed and very angry, found out that the Ray Tracing series is in 'Vulkan'...
 2. Tuesday (August 4th): Took it easy, did some thinking, reflecting and research and found very useful information.
 3. Wednesday (August 5th): back working on the project and back learning!
+
+## Really Learning
+During this week I watched a YouTube video called: 'how to render circles' by The Cherno. And in that video we write a fragment shader that renders a circle. The below code is the code we wrote in that video:
+
+```
+void mainImage( out vec4 fragColor, in vec2 fragCoord )
+{
+    // Normalized pixel coordinates (from 0 to 1)
+    vec2 uv = fragCoord/iResolution.xy * 2.0 - 1.0;
+    float apsect = iResolution.x / iResolution.y;
+    uv.x *= apsect;
+    
+    //fragColor.rg = uv;
+    
+    //return;
+    
+    fragColor.rg = uv;
+    fragColor.b = 0.0;
+    
+    float thickness = 1.0;
+    float fade = 0.5;
+    thickness += fade;
+    
+    // here we invert our color, the middle is 1 and as we go out if goes closer to 0
+    float distance = 1.0 - length(uv);
+    
+    vec3 col = vec3(smoothstep(0.0, fade, distance));   
+    col *= vec3(smoothstep(thickness + fade, thickness, distance));
+    
+    fragColor.rgb = col;
+    fragColor.rgb *= vec3(0.2, 0.3, 0.8); // blue circle   0.8 - for b (aka, blue)!
+}
+```
+
+And this is the cool part, i have converted this example (we did this on ShaderToy: https://www.shadertoy.com/new) to mostly work in my very own fragment shader that my code processes!
+This has been very rewarding but also incredebly very fun! To view my current fragment shader see here: https://github.com/KyleKinsella/Learning-Graphics-Programming/blob/main/Bouncing-Ball-Simulator/shaders/fragmentTestShader.glsl.
 
 ## My Ray Tracing Project (later on...)
 TODO
