@@ -137,7 +137,7 @@ designing my code-base, such that: its easy to read and undertand the data-flow 
 
 Image 3:
 
-![My OpenGL Project so far]()
+![My OpenGL Project so far](https://github.com/KyleKinsella/Learning-Graphics-Programming/blob/main/project-images/Screenshot%20From%202026-08-10%2016-19-09.png)
 
 ## Project Contents (to be added)
 - Uniforms - complete.
