@@ -130,13 +130,17 @@ Image 1:
 
 Image 2:
 
-![My OpenGL Project so far](https://github.com/KyleKinsella/Learning-Graphics-Programming/blob/main/project-images/Screenshot%20From%202026-08-08%2020-23-01.png)
+![Image 2](https://github.com/KyleKinsella/Learning-Graphics-Programming/blob/main/project-images/Screenshot%20From%202026-08-08%2020-23-01.png)
 
 As you can see in the image above is not a cicle/ball, just yet. I am very aware of this, but i have learned a lot from the OpenGL YouTube series by The Cherno. And I have spent two days
 designing my code-base, such that: its easy to read and undertand the data-flow of my application.
 
+Image 3:
+
+![My OpenGL Project so far]()
+
 ## Project Contents (to be added)
-- Uniforms.
+- Uniforms - complete.
 - Textures.
 - Maths, Projection, Model View Projection (MVP) matrices, Physics.
 - An interactive GUI, for play testing the project.
