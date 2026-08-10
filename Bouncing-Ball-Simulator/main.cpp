@@ -6,11 +6,15 @@
 #include "Circle/Circle.h"
 #include "Shader/Shader.h"
 
-#define SCREEN_WIDTH 640
-#define SCREEN_HEIGHT 480
+#define SCREEN_WIDTH 230
+#define SCREEN_HEIGHT 220
+
+//~ #define SCREEN_WIDTH 350
+//~ #define SCREEN_HEIGHT 500
+
 #define NAME "Bouncing Ball Simulator"
 
-int main(void) {
+int main() {
     GLFWwindow* window;
 
     /* Initialize the library */
@@ -34,11 +38,11 @@ int main(void) {
     
     float positions[] {
 		-0.5f, -0.5f,
-		0.0f, 0.5f,
+		0.0f, 0.5f,	
 		0.5f, -0.5f,
 		-0.5f, 0.5f	
 	};
-		
+	
 	float indexes[] {
 		0, 1, 2,
 		2, 3, 0 
@@ -48,6 +52,9 @@ int main(void) {
 	glGenBuffers(1, &buffer);
 	glBindBuffer(GL_ARRAY_BUFFER, buffer);
 	glBufferData(GL_ARRAY_BUFFER, 8 * 2 * sizeof(float), positions, GL_STATIC_DRAW);
+	
+	//~ glEnableVertexAttribArray(0);
+	//~ glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(float) * 4, (void*)0);
 	
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0);
@@ -63,22 +70,27 @@ int main(void) {
 	glm::vec3 circleColor = glm::vec3(0.2, 0.3, 0.8);
 	Circle circle(0, 1, 0, circleColor);
 	
-	Shader shader("resources/shaders/VertexShader.glsl", "resources/shaders/fragmentTestShader.glsl");
+	Shader shader("resources/shaders/VertexShader.glsl", "resources/shaders/testGLSL.glsl");
 	shader.bind();
 	
 	glm::vec3 data(SCREEN_WIDTH, SCREEN_HEIGHT, 1);
 		
     //~ /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window)) {
-        
+		
 		/* Render here */
         glClear(GL_COLOR_BUFFER_BIT);
         
 		shader.bind();
-        shader.sendUniformValue("iResolution", data);
-        shader.sendUniformValue("color", circleColor);
-        
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+		//~ shader.sendUniformValue("iResolution", data);
+		//~ shader.sendUniformValue("color", circleColor);
+		        
+		//~ glUniform2f(shader.getUniformName("u_resolution"), data.x-25, data.y-15);
+		
+		glUniform2f(shader.getUniformName("u_resolution"), data.x, data.y);
+		shader.sendUniformValue("color", circleColor);
+		        
+        glDrawArrays(GL_TRIANGLES, 0, 4);
         
 		/* Swap front and back buffers */
         glfwSwapBuffers(window);

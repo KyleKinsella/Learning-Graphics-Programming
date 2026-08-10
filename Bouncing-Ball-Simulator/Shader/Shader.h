@@ -20,7 +20,7 @@ public:
 	// Uniforms
 	int getUniformName(const std::string& uniformName);
 	void sendUniformValue(const std::string& uniformName, glm::vec3 vec);
-		
+	
 private:
 	unsigned int m_RenderId;
 };

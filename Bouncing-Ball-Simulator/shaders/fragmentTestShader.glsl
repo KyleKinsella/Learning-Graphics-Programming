@@ -11,13 +11,16 @@ void main() {
 	
 	vec2 uv = fragCoord/iResolution.xy * 2.0 - 1.0;
     float apsect = iResolution.x / iResolution.y;
-    uv.x *= apsect;
+    uv.x *= apsect;	// * 2.0f * 1.0f;
+    
+    //~ uv.x *= 1.0 / apsect;
+    //~ uv.x /= apsect;
     
 	fragColor.rg = uv;
     fragColor.b = 0.0;
     
-    float thickness = 1.0;
-    float fade = 2.5;
+    float thickness = 2.0;
+    float fade = 0.5;
     thickness += fade;
     
     // here we invert our color, the middle is 1 and as we go out if goes closer to 0
@@ -25,6 +28,14 @@ void main() {
     
 	vec3 col = vec3(smoothstep(0.0, fade, distance));   
     col *= vec3(smoothstep(thickness + fade, thickness, distance));
-    
+
     fragColor.rgb = col * color;
+    
+    //~ fragColor.rgb = vec3(distance);
+    
+    //~ fragColor = vec3(uv * 0.5 + 0.5, 0.0);
+
+    
+    //~ fragColor.rgb = col;
+    //~ fragColor.rgb *= color;
 }
