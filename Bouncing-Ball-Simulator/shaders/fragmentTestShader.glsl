@@ -20,7 +20,7 @@ void main() {
     fragColor.b = 0.0;
     
     float thickness = 2.0;
-    float fade = 0.5;
+    float fade = 1.5;
     thickness += fade;
     
     // here we invert our color, the middle is 1 and as we go out if goes closer to 0
@@ -30,11 +30,6 @@ void main() {
     col *= vec3(smoothstep(thickness + fade, thickness, distance));
 
     fragColor.rgb = col * color;
-    
-    //~ fragColor.rgb = vec3(distance);
-    
-    //~ fragColor = vec3(uv * 0.5 + 0.5, 0.0);
-
     
     //~ fragColor.rgb = col;
     //~ fragColor.rgb *= color;
