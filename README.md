@@ -134,7 +134,7 @@ because the SCREEN_HEIGHT variable is set to 480 and the 'yCoord' parameter is 5
 
 Image of Red & Purple Circle's being cut off
 
-![Image of Red & Purple Circle's being cut off]("")
+![Image of Red & Purple Circle's being cut off](https://github.com/KyleKinsella/Learning-Graphics-Programming/blob/main/project-images/Screenshot%20From%202026-08-13%2013-16-38.png)
 
 ```
 #version 330 core
