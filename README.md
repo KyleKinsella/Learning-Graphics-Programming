@@ -96,7 +96,9 @@ A 'Bouncing Ball Simulator'. I know this seems very easy and even stupid, but I 
 with The Cherno. This is going to be hard (and scary, lol) but, in return I will learn lots and this is the best way to learn how to build something from scratch.
 
 ## Problems & Challanges & Solution's & Answer's
-My first big problem that i had to face was sending data from my C++ code (CPU side) to OpenGL (GPU side), this is known as a uniform variable. I was sending 2 or 3 uniform variables, while the window was open, but for some
+This part of the README explains what problems I have faced during this OpenGL project and how I fixed these problems.
+
+1. My first big problem that i had to face was sending data from my C++ code (CPU side) to OpenGL (GPU side), this is known as a uniform variable. I was sending 2 or 3 uniform variables, while the window was open, but for some
 reason I kept getting this error:
 
 - Warning: uniform 'iResolution' doesn't exist!
@@ -108,6 +110,60 @@ i got, i was under the impression that i had a problem with how i was sending my
 not used in the output color (a incredebly stupid design descision, glsl team).
 
 See Image 2 to view the project so far.
+
+2. This problem, was very hard for me to fix, it took me 2-3 days to fix this problem. After I was able to create one circle I thought it was going to be a walk in the park
+to get to create multiple circles. I thought this would be true but turns out it was not. For example: in my Blockchain from Scratch (Simulation) project, I was able to create one block 
+(the Genesis block) and then just loop N times to create N other blocks, see here for more info: https://github.com/KyleKinsella/BlockChain-Project-From-Scratch/blob/main/Blocks/block.go.
+
+Because I was able to do this for my blockchain project, I thought, this would be easy to do (I was very wrong). After 1-2 days of trying to figure it out on my own I decided to go to
+YouTube, to try and see if I could find a helpful video and I found this video: https://www.youtube.com/watch?v=L-BA4nJJ8bQ. After watching this video I was able to produce the circle 
+in Image 3 (see below). But in this video the creator made a function so that we can create as many circles/balls as we want. But when I wrote this function and involked it, I did not 
+get the same result as the video creator did. So, this left me very confused, why am I not getting the same result !? So, I spent hours try to debug it myself (without AI). But after many
+hours I said to myself: "I have spent hours at this and I have not found the solution to this problem, I don't want to use AI because it is a guessing machine but I am soooo
+confused, I'll use AI even do I don't want to"! So, after wayyy to many prompts I eventually got something that produced a circle/ball, see Image 4 for more details.
+
+But before I got the output of Image 4, I had a massive problem - my circle/ball was getting cut off, literally. See image and fragment shader below for more info. 
+But I have learned why this occured. For example: In my fragment shader, for the variable 'redCircle', the 'xCoord' and 'yCoord' values are 120.0, 500.0. But in my main.cpp I have
+defined SCREEN_WIDTH = 640 and SCREEN_HEIGHT = 480, so if my window (aka, quad) is of these values '640x480', it's very obvious to its going to be cut off!
+
+Note: this also applies to the purple circle also.
+
+<!--
+because the SCREEN_HEIGHT variable is set to 480 and the 'yCoord' parameter is 500.0, to its going to be cut off!
+-->
+
+Image of Red & Purple Circle's being cut off
+
+![Image of Red & Purple Circle's being cut off]("")
+
+```
+#version 330 core
+
+layout (location = 0) out vec4 color;
+
+#define UV gl_FragCoord.xy
+
+// TODO: add color...
+float createCircle(float lowerEdge, float higherEdge, float xCoord, float yCoord) {
+	return 1.0 - smoothstep(lowerEdge, higherEdge, distance(UV, vec2(xCoord, yCoord)));
+}
+
+void main() {
+	float whiteCircle = createCircle(12.0, 50.0, 245.0, 345.0);
+	float redCircle = createCircle(25.0, 80.0, 120.0, 500.0);
+	float purpleCircle = createCircle(2.0, 5.0, 640.0, 320.0);
+	float pinkCircle = createCircle(20.0, 23.0, 210.0, 80.0);
+		
+	vec3 canvas = vec3(1.0, 1.0, 1.0) * whiteCircle + vec3(1.0, 0.0, 0.0) * redCircle + vec3(0.65, 0.56, 1.0) * purpleCircle + vec3(1.0, 0.55, 0.76) * pinkCircle;
+	color = vec4(canvas, 1.0);
+}
+```
+
+main.cpp
+```
+#define SCREEN_WIDTH 640
+#define SCREEN_HEIGHT 480
+```
 
 ## Project Contents (so far)
 Note: I will show images of the project as I develop this small project! 
@@ -126,18 +182,22 @@ Below is the first image of the project so far:
 
 Image 1:
 
-![Image 1](https://github.com/KyleKinsella/Learning-Graphics-Programming/blob/main/project-images/Screenshot%20From%202026-08-07%2021-31-14.png)
+![A yellow triangle - image one](https://github.com/KyleKinsella/Learning-Graphics-Programming/blob/main/project-images/Screenshot%20From%202026-08-07%2021-31-14.png)
 
 Image 2:
 
-![Image 2](https://github.com/KyleKinsella/Learning-Graphics-Programming/blob/main/project-images/Screenshot%20From%202026-08-08%2020-23-01.png)
+![A faded dark blue triangle - image two](https://github.com/KyleKinsella/Learning-Graphics-Programming/blob/main/project-images/Screenshot%20From%202026-08-08%2020-23-01.png)
 
 As you can see in the image above is not a cicle/ball, just yet. I am very aware of this, but i have learned a lot from the OpenGL YouTube series by The Cherno. And I have spent two days
 designing my code-base, such that: its easy to read and undertand the data-flow of my application.
 
 Image 3:
 
-![My OpenGL Project so far](https://github.com/KyleKinsella/Learning-Graphics-Programming/blob/main/project-images/Screenshot%20From%202026-08-10%2016-19-09.png)
+![A small blue circle/ball](https://github.com/KyleKinsella/Learning-Graphics-Programming/blob/main/project-images/Screenshot%20From%202026-08-10%2016-19-09.png)
+
+Image 4:
+
+![My OpenGL Project so far](https://github.com/KyleKinsella/Learning-Graphics-Programming/blob/main/project-images/Screenshot%20From%202026-08-13%2012-37-56.png)
 
 ## Project Contents (to be added)
 - Uniforms - complete.
