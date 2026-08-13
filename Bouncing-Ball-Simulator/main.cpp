@@ -10,9 +10,6 @@
 #define SCREEN_HEIGHT 600
 #define NAME "Bouncing Ball Simulator"
 
-#include <cstdlib>
-#include <ctime>
-
 int main() {
     GLFWwindow* window;
 
@@ -66,113 +63,11 @@ int main() {
 	Shader shader("resources/shaders/VertexShader.glsl", "resources/shaders/FragmentShader.glsl");
 	shader.bind();
 	
-	//~ float whiteCircle = createCircle(12.0, 50.0, 245.0, 345.0);
-	//~ float redCircle = createCircle(25.0, 80.0, 120.0, 500.0);
-	//~ float purpleCircle = createCircle(2.0, 5.0, 640.0, 320.0);
-	
-	
-	//~ float purpleCircle = createCircle(22.0, 32.0, 640.0, 320.0);
-	
-	
-	//~ float pinkCircle = createCircle(20.0, 23.0, 210.0, 80.0);
-	
-	//~ float lowerEdgeValues[] = {2.0, 12.0, 20.0, 25.0};
-	//~ float higherEdgeValues[] = {5.0, 23.0, 50.0, 80.0};
-	
-    //~ int sizeLow = sizeof(lowerEdgeValues) / sizeof(lowerEdgeValues[0]);
-    //~ int sizeHigh = sizeof(lowerEdgeValues) / sizeof(lowerEdgeValues[0]);
-    
-	//~ float xValues[] = {120.0, 210.0, 245.0, 640.0};
-	//~ float yValues[] = {80.0, 320.0, 345.0, 500.0};
-	
-    //~ int x = sizeof(xValues) / sizeof(xValues[0]);
-    //~ int y = sizeof(yValues) / sizeof(yValues[0]);
-    
-    //~ std::srand(std::time(nullptr)); // Seed the random number generator
-    //~ int randomLowIndex = std::rand() % sizeLow; // Get a random index
-    //~ int randomHighIndex = std::rand() % sizeHigh; // Get a random index
-    
-    //~ int xIndex = std::rand() % x; // Get a random index
-    //~ int yIndex = std::rand() % y; // Get a random index
-    
-    
-    //~ std::cout << "Random float: " << lowerEdgeValues[randomLowIndex] << ", " << higherEdgeValues[randomHighIndex] << std::endl;
-		
-		
-	//~ float lowerEdgeValues[] = {2.0, 12.0, 20.0, 25.0};
-	//~ float higherEdgeValues[] = {5.0, 23.0, 50.0, 80.0};
-	
-	//~ int sizeLow = sizeof(lowerEdgeValues) / sizeof(lowerEdgeValues[0]);
-	//~ int sizeHigh = sizeof(lowerEdgeValues) / sizeof(lowerEdgeValues[0]);
-	
-	//~ float xValues[] = {120.0, 210.0, 245.0, 640.0};
-	//~ float yValues[] = {80.0, 320.0, 345.0, 500.0};
-	
-	//~ int x = sizeof(xValues) / sizeof(xValues[0]);
-	//~ int y = sizeof(yValues) / sizeof(yValues[0]);
-	
-		
-    //~ /* Loop until the user closes the window */
+    /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window)) {
 		
 		/* Render here */
         glClear(GL_COLOR_BUFFER_BIT);
-        
-        //~ shader.bind();
-        //~ shader.createNBalls("ballsToMake", 50);
-        
-     		
-	float lowerEdgeValues[] = {3.0, 6.0, 9.0, 12.0};
-	float higherEdgeValues[] = {24.0, 33.0, 55.0, 88.0};
-	
-	int sizeLow = sizeof(lowerEdgeValues) / sizeof(lowerEdgeValues[0]);
-	int sizeHigh = sizeof(lowerEdgeValues) / sizeof(lowerEdgeValues[0]);
-	
-	float xValues[] = {125.0, 250.0, 275.0, 295.0};
-	float yValues[] = {300.0, 320.0, 345.0, 500.0};
-	
-	int x = sizeof(xValues) / sizeof(xValues[0]);
-	int y = sizeof(yValues) / sizeof(yValues[0]);
-		
-		std::srand(std::time(nullptr)); // Seed the random number generator
-		//~ int randomLowIndex = std::rand() % sizeLow; // Get a random index
-		//~ int randomHighIndex = std::rand() % sizeHigh; // Get a random index
-		
-		float randomLowIndex = lowerEdgeValues[std::rand() % sizeLow];
-		float randomHighIndex = higherEdgeValues[std::rand() % sizeHigh];
-		
-		
-		float xIndex = xValues[std::rand() % x];
-		float yIndex = yValues[std::rand() % y];
-
-		
-		
-		//~ int xIndex = std::rand() % x; // Get a random index
-		//~ int yIndex = std::rand() % y; // Get a random index
-    
-		//~ glUniform1i(shader.getUniformName("sizeLow"), sizeLow);
-		//~ glUniform1i(shader.getUniformName("sizeHigh"), sizeHigh);
-		
-		
-		// works:
-		//~ glUniform1f(shader.getUniformName("sizeLow"), sizeLow);
-		//~ glUniform1f(shader.getUniformName("sizeHigh"), sizeHigh);
-		
-		
-		
-		
-		//~ std::cout << "Random float: " << lowerEdgeValues[randomLowIndex] << ", " << higherEdgeValues[randomHighIndex] << xValues[x] <<  ", " << yValues[y] << std::endl;
-
-		
-		//~ glUniform1i(shader.getUniformName("x"), x);
-		//~ glUniform1i(shader.getUniformName("y"), y);
-        
-        
-        //~ // works:
-		//~ glUniform1f(shader.getUniformName("x"), x);
-		//~ glUniform1f(shader.getUniformName("y"), y);
-        
-        
         
         glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
                 
