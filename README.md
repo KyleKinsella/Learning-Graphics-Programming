@@ -126,7 +126,8 @@ But before I got the output of Image 4, I had a massive problem - my circle/ball
 But I have learned why this occured. For example: In my fragment shader, for the variable 'redCircle', the 'xCoord' and 'yCoord' values are 120.0, 500.0. But in my main.cpp I have
 defined SCREEN_WIDTH = 640 and SCREEN_HEIGHT = 480, so if my window (aka, quad) is of these values '640x480', it's very obvious to its going to be cut off!
 
-Note: this also applies to the purple circle also.
+Note: this also applies to the purple circle also. And in my fragment shader, I have defined a variable called 'UV'. This variable is built-in to opengl and the x and y
+coordinates are your viewport size, so in this case the x = 640 and y = 480, this runs for every fragment / pixel on the screen (aka, window or quad).
 
 <!--
 because the SCREEN_HEIGHT variable is set to 480 and the 'yCoord' parameter is 500.0, to its going to be cut off!
