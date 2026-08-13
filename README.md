@@ -166,6 +166,56 @@ main.cpp
 #define SCREEN_HEIGHT 480
 ```
 
+3. Today (August 13th, 2026), I spent most of my day trying to figure out how I was going to make 'N' circles / balls. I thought, I had set-up everything perfectly (turns out I did), but I was
+trying to be fancy with how I was computing each Ball's fields. For example: this is some of the content from my fragment shader, see below. Note: the '...' means there is more code above and below.
+
+```
+...
+
+#define BALLS 5
+
+struct Ball {
+	float lowerEdge;
+	float higherEdge;
+	float xCoord;
+	float yCoord;
+	vec3 color;
+};
+
+...
+
+void main() {
+	...
+	
+	Ball balls[BALLS];
+	for (int i = 0; i < balls.length(); i++) {
+		balls[i].lowerEdge = 12.0;
+		balls[i].higherEdge = 25.0;
+		balls[i].xCoord = 100.0 + float(i) * 130.0;
+		balls[i].yCoord = 200.0;
+		balls[i].color = vec3(1.0, 0.0, 0.0);
+	}
+	
+	...
+}
+
+```
+
+I was doing this (in the for loop, for no reason):
+
+```
+balls[i].lowerEdge = i * 500;
+balls[i].higherEdge = i - 5;
+balls[i].xCoord = i + 10;
+balls[i].yCoord = i - 10;
+```
+
+I was trying to be fancy and try and set each of the fields in a cool way, but turns out this was a very stupid thing I did! So, after spending most of my day trying to figure this out,
+I asked ChatGPT for some help and all he did was give me '12.0' for lowerEdge, '25.0' for higherEdge, '100.0 + float(i) * 130.0' for xCoord and '200.0' for yCoord (color was not an issue for me). 
+And once I removed the crap I made this worked! But the main thing to remember is that I only went to 'AI' after spending hours of trying to do this all on my own. 
+
+Another thing, is that the way I designed the archecticture was perfect, the only problem was the fields I was setting in a fancy and stupid way!
+
 ## Project Contents (so far)
 Note: I will show images of the project as I develop this small project! 
 This will be filled in, once I have completed the project or the project is work in progesss.
@@ -198,7 +248,11 @@ Image 3:
 
 Image 4:
 
-![My OpenGL Project so far](https://github.com/KyleKinsella/Learning-Graphics-Programming/blob/main/project-images/Screenshot%20From%202026-08-13%2012-37-56.png)
+![A red, white, pink and purple cicles](https://github.com/KyleKinsella/Learning-Graphics-Programming/blob/main/project-images/Screenshot%20From%202026-08-13%2012-37-56.png)
+
+Image 5:
+
+![My OpenGL Project so far]("")
 
 ## Project Contents (to be added)
 - Uniforms - complete.
