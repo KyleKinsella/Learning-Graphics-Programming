@@ -252,7 +252,7 @@ Image 4:
 
 Image 5:
 
-![My OpenGL Project so far]("")
+![My OpenGL Project so far](https://github.com/KyleKinsella/Learning-Graphics-Programming/blob/main/project-images/Screenshot%20From%202026-08-13%2023-35-35.png)
 
 ## Project Contents (to be added)
 - Uniforms - complete.
