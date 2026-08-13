@@ -2,7 +2,6 @@
 
 #include <fstream>
 #include <iostream>
-#include <vector>
 
 Shader::Shader(const std::string& vertexShader, const std::string& fragmentShader) {
 	std::string vs = readShaderFile(vertexShader);
@@ -39,15 +38,11 @@ unsigned int Shader::compileShader(unsigned int typeOfShader, const std::string&
 		
 		glGetShaderInfoLog(type, 1024, &size, msg); 
 		
-		//std::cout << "An error has occured while trying to compile your " << (typeOfShader == GL_VERTEX_SHADER) ? "Vertex Shader." : "Fragment Shader.";// << std::endl;
+		std::cout << "An error has occured while trying to compile your " << (typeOfShader == GL_VERTEX_SHADER) ? "Vertex Shader." : "Fragment Shader.";// << std::endl;
 		std::cout << msg << std::endl;
-	
-		//~ return 1;
-		
+			
 		return 0;
 	}
-	
-	//~ glUseProgram(type);
 	return type;
 }
 
@@ -104,4 +99,8 @@ int Shader::getUniformName(const std::string& uniformName) {
 
 void Shader::sendUniformValue(const std::string& uniformName, glm::vec3 vec) {	
 	glUniform3f(getUniformName(uniformName), vec.x, vec.y, vec.z);
+}
+
+void Shader::createNBalls(const std::string& uniformName, float v0) {
+	glUniform1i(getUniformName(uniformName), v0);
 }
