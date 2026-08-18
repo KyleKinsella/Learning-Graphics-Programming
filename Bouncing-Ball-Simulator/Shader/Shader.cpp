@@ -102,5 +102,6 @@ void Shader::sendUniformValue(const std::string& uniformName, glm::vec3 vec) {
 }
 
 void Shader::createNBalls(const std::string& uniformName, float v0) {
-	glUniform1i(getUniformName(uniformName), v0);
+	//~ glUniform1i(getUniformName(uniformName), v0);
+	glUniform1f(getUniformName(uniformName), v0);
 }
