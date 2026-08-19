@@ -254,6 +254,10 @@ Image 5:
 
 ![My OpenGL Project so far](https://github.com/KyleKinsella/Learning-Graphics-Programming/blob/main/project-images/Screenshot%20From%202026-08-13%2023-35-35.png)
 
+## Project Videos
+I have created three videos of my project running (so far), I tried to embed these videos here so you can view them at your convenience, but unfortunately I was not able to. So, I have put these videos on my 
+personal portfolio, see here to view the videos: https://kylekinsella.github.io/learning-graphics.htm.
+
 ## Project Contents (to be added)
 - Uniforms - complete.
 - Textures.
