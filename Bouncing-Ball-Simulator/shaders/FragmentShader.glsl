@@ -3,7 +3,7 @@
 layout (location = 0) out vec4 color;
 
 #define UV gl_FragCoord.xy
-#define BALLS 5
+#define BALLS 6
 
 uniform float time;
 
@@ -49,18 +49,17 @@ void main() {
 	for (int i = 0; i < balls.length(); i++) {
 		balls[i].lowerEdge = 12.0;
 		balls[i].higherEdge = 25.0;
-		
 		balls[i].xCoord = 100.0 + float(i) * 130.0;
 		balls[i].yCoord = 200.0;
-		
 		balls[i].color = vec3(1.0, 0.0, 0.0);
 		
 		if (i == BALLS-1) {
 			balls[i].color = vec3(0.0, 1.0, 0.0);
-			balls[i].yCoord += updateBallsYCoordinate(balls[i], i*5.0, time);
+			balls[i].yCoord += updateBallsYCoordinate(balls[i], i*2.0, time);
+			balls[i].yCoord -= dropBall(balls[i].yCoord, 150.0);
 		}
 	}
-	
+		
 	for (int i = 0; i < BALLS; i++) {
 		float circle = createCircle(balls[i]);		
 		canvas += circle * balls[i].color;

@@ -97,11 +97,11 @@ int Shader::getUniformName(const std::string& uniformName) {
 	return loc;
 }
 
-void Shader::sendUniformValue(const std::string& uniformName, glm::vec3 vec) {	
-	glUniform3f(getUniformName(uniformName), vec.x, vec.y, vec.z);
-}
+//~ void Shader::sendUniformValue(const std::string& uniformName, glm::vec3 vec) {	
+	//~ glUniform3f(getUniformName(uniformName), vec.x, vec.y, vec.z);
+//~ }
 
-void Shader::createNBalls(const std::string& uniformName, float v0) {
+//~ void Shader::sendUniformValue(const std::string& uniformName, float v0) {
 	//~ glUniform1i(getUniformName(uniformName), v0);
-	glUniform1f(getUniformName(uniformName), v0);
-}
+	//~ glUniform1f(getUniformName(uniformName), v0);
+//~ }

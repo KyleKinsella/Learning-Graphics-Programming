@@ -6,8 +6,8 @@
 #include "Circle/Circle.h"
 #include "Shader/Shader.h"
 
-#define SCREEN_WIDTH 1066 //3840
-#define SCREEN_HEIGHT 600 //2400
+#define SCREEN_WIDTH 1066
+#define SCREEN_HEIGHT 600
 #define NAME "Bouncing Ball Simulator"
 
 int main() {
@@ -65,7 +65,7 @@ int main() {
 	
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window)) {
-
+		
 		float time = glfwGetTime();
 		std::cout << time << std::endl;
 		
@@ -73,8 +73,17 @@ int main() {
         glClear(GL_COLOR_BUFFER_BIT);
         
         shader.bind();
-        shader.createNBalls("time", time);
         
+        // Make our ball move each time we press the 'e' key
+        if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS) {	
+			std::cout << "E KEY WAS PRESSED" << std::endl;
+			
+			//~ shader.sendUniformValue("time", time);
+			//~ glUniform3f(getUniformName(uniformName), vec.x, vec.y, vec.z);
+			
+			glUniform1f(shader.getUniformName("time"), time);
+		} 
+		       
         glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
                 
 		/* Swap front and back buffers */
