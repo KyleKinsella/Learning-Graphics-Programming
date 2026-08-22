@@ -4,6 +4,7 @@ layout (location = 0) out vec4 color;
 
 #define UV gl_FragCoord.xy
 #define BALLS 6
+//~ #define BALLS_TO_CREATE 5
 
 uniform float time;
 
@@ -44,22 +45,34 @@ void main() {
 	float pinkCircle = createCircle(20.0, 23.0, 210.0, 80.0);
 	
 	vec3 canvas = vec3(1.0, 1.0, 1.0) * whiteCircle + vec3(1.0, 0.0, 0.0) * redCircle + vec3(0.65, 0.56, 1.0) * purpleCircle + vec3(1.0, 0.55, 0.76) * pinkCircle;
+	//~ vec3 canvas = vec3(1.0, 0.0, 0.0) * redCircle + vec3(0.65, 0.56, 1.0) * purpleCircle + vec3(1.0, 0.55, 0.76) * pinkCircle;
+	//~ vec3 canvas = vec3(0.0);
 	
 	Ball balls[BALLS];
-	for (int i = 0; i < balls.length(); i++) {
+	//~ BALLS_TO_CREATE
+	for (int i = 0; i < BALLS; i++) {
 		balls[i].lowerEdge = 12.0;
 		balls[i].higherEdge = 25.0;
 		balls[i].xCoord = 100.0 + float(i) * 130.0;
 		balls[i].yCoord = 200.0;
 		balls[i].color = vec3(1.0, 0.0, 0.0);
-		
+			
 		if (i == BALLS-1) {
 			balls[i].color = vec3(0.0, 1.0, 0.0);
 			balls[i].yCoord += updateBallsYCoordinate(balls[i], i*2.0, time);
-			balls[i].yCoord -= dropBall(balls[i].yCoord, 150.0);
+			balls[i].yCoord -= dropBall(balls[i].yCoord, 130.0);
 		}
 	}
 		
+	//~ balls[BALLS_TO_CREATE].lowerEdge = 12.0;
+	//~ balls[BALLS_TO_CREATE].higherEdge = 50.0;
+	//~ balls[BALLS_TO_CREATE].xCoord = 245.0;
+	//~ balls[BALLS_TO_CREATE].yCoord = 345.0;
+	//~ balls[BALLS_TO_CREATE].color = vec3(1.0, 1.0, 1.0);
+	
+	//~ balls[BALLS_TO_CREATE].yCoord += updateBallsYCoordinate(balls[0], 1*2.0, time);
+	//~ balls[BALLS_TO_CREATE].yCoord -= dropBall(balls[0].yCoord, 150.0);
+	
 	for (int i = 0; i < BALLS; i++) {
 		float circle = createCircle(balls[i]);		
 		canvas += circle * balls[i].color;

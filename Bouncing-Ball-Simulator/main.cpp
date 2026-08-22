@@ -1,6 +1,10 @@
 #include "glad/include/glad/glad.h"
 #include <GLFW/glfw3.h>
 
+#include "vendors/imgui/imgui.h"
+#include "vendors/imgui/imgui_impl_opengl3.h"
+#include "vendors/imgui/imgui_impl_glfw.h"
+
 #include <iostream>
 
 #include "Circle/Circle.h"
@@ -63,6 +67,13 @@ int main() {
 	Shader shader("resources/shaders/VertexShader.glsl", "resources/shaders/FragmentShader.glsl");
 	shader.bind();
 	
+	ImGui::CreateContext();
+	ImGui_ImplGlfw_InitForOpenGL(window, true);
+	ImGui_ImplOpenGL3_Init("#version 330 core");
+	ImGui::StyleColorsDark();
+	
+	glm::vec3 a = glm::vec3(200, 200, 0);
+	
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window)) {
 		
@@ -72,19 +83,24 @@ int main() {
 		/* Render here */
         glClear(GL_COLOR_BUFFER_BIT);
         
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+		ImGui::NewFrame();
+		
+		ImGui::SliderFloat3("Translation A", &a.x, 0.0f, 960.0f);
+		//~ ImGui::SliderFloat3("Translation B", &m_TranslationB.x, 0.0f, 960.0f);
+		
         shader.bind();
-        
         // Make our ball move each time we press the 'e' key
         if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS) {	
-			std::cout << "E KEY WAS PRESSED" << std::endl;
-			
-			//~ shader.sendUniformValue("time", time);
-			//~ glUniform3f(getUniformName(uniformName), vec.x, vec.y, vec.z);
-			
+			std::cout << "E KEY WAS PRESSED" << std::endl;			
 			glUniform1f(shader.getUniformName("time"), time);
 		} 
 		       
         glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+                
+		ImGui::Render();		
+		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
                 
 		/* Swap front and back buffers */
         glfwSwapBuffers(window);
@@ -92,7 +108,11 @@ int main() {
         /* Poll for and process events */
         glfwPollEvents();
     }
-
+    
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
+    
     glfwTerminate();
     return 0;
 }
