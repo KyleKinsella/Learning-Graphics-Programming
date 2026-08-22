@@ -1,12 +1,27 @@
 #version 330 core
 
-layout (location = 0) out vec4 color;
+layout (location = 0) out vec4 fragColor;
 
 #define UV gl_FragCoord.xy
 #define BALLS 6
 //~ #define BALLS_TO_CREATE 5
 
+//~ float lowerEdge, float higherEdge, float xCoord, float yCoord
+
 uniform float time;
+
+uniform float lowerEdge;
+uniform float higherEdge;
+uniform float xCoord;
+uniform float yCoord;
+uniform vec3 color;
+//~ uniform vec4 color;
+
+//~ uniform float r;
+//~ uniform float g;
+//~ uniform float b;
+
+//~ uniform float a;
 
 struct Ball {
 	float lowerEdge, higherEdge, xCoord, yCoord;
@@ -43,8 +58,27 @@ void main() {
 	float redCircle = createCircle(25.0, 80.0, 120.0, 500.0);
 	float purpleCircle = createCircle(22.0, 25.0, 420.0, 350.0);
 	float pinkCircle = createCircle(20.0, 23.0, 210.0, 80.0);
+
+	//~ float rgba = r * g * b * a;
+	//~ float rgba = r + g + b + a;
 	
-	vec3 canvas = vec3(1.0, 1.0, 1.0) * whiteCircle + vec3(1.0, 0.0, 0.0) * redCircle + vec3(0.65, 0.56, 1.0) * purpleCircle + vec3(1.0, 0.55, 0.76) * pinkCircle;
+	//~ float rgb = r + g + b;	// + a;
+	//~ float rgb = r * g * b;	// + a;
+	float guiCircle = createCircle(lowerEdge, higherEdge, xCoord, yCoord);
+	
+	//~ vec3 canvas = vec3(1.0, 1.0, 1.0) * whiteCircle + vec3(1.0, 0.0, 0.0) * redCircle + vec3(0.65, 0.56, 1.0) * purpleCircle + vec3(1.0, 0.55, 0.76) * pinkCircle;
+	
+	//~ vec3 canvas = vec3(1.0, 1.0, 1.0) * whiteCircle + vec3(1.0, 0.0, 0.0) * redCircle + vec3(0.65, 0.56, 1.0) * purpleCircle + vec3(1.0, 0.55, 0.76) * pinkCircle + vec3(1.0, 1.0, 0.30) * guiCircle;
+	//~ vec3 canvas = vec3(1.0, 1.0, 1.0) * whiteCircle + vec3(1.0, 0.0, 0.0) * redCircle + vec3(0.65, 0.56, 1.0) * purpleCircle + vec3(1.0, 0.55, 0.76) * pinkCircle + color * guiCircle;
+	
+	//~ const rgba = r * g * b * a;
+	
+	//~ vec3 canvas = vec3(1.0, 1.0, 1.0) * whiteCircle + vec3(1.0, 0.0, 0.0) * redCircle + vec3(0.65, 0.56, 1.0) * purpleCircle + vec3(1.0, 0.55, 0.76) * pinkCircle + rgba * guiCircle;
+	//~ vec3 canvas = vec3(1.0, 1.0, 1.0) * whiteCircle + vec3(1.0, 0.0, 0.0) * redCircle + vec3(0.65, 0.56, 1.0) * purpleCircle + vec3(1.0, 0.55, 0.76) * pinkCircle + rgb * guiCircle;
+	
+	//~ vec3 canvas = vec3(1.0, 1.0, 1.0) * whiteCircle + vec3(1.0, 0.0, 0.0) * redCircle + vec3(0.65, 0.56, 1.0) * purpleCircle + vec3(1.0, 0.55, 0.76) * pinkCircle + color.rgba * guiCircle;
+	vec3 canvas = vec3(1.0, 1.0, 1.0) * whiteCircle + vec3(1.0, 0.0, 0.0) * redCircle + vec3(0.65, 0.56, 1.0) * purpleCircle + vec3(1.0, 0.55, 0.76) * pinkCircle + color * guiCircle;
+	
 	//~ vec3 canvas = vec3(1.0, 0.0, 0.0) * redCircle + vec3(0.65, 0.56, 1.0) * purpleCircle + vec3(1.0, 0.55, 0.76) * pinkCircle;
 	//~ vec3 canvas = vec3(0.0);
 	
@@ -78,5 +112,5 @@ void main() {
 		canvas += circle * balls[i].color;
 	}
 		
-	color = vec4(canvas, 1.0);
+	fragColor = vec4(canvas, 1.0);
 }

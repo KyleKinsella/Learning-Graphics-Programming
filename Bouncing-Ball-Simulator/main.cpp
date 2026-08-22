@@ -93,80 +93,52 @@ int main() {
 		//~ }
 		
 		ImGui::Text("Make a Ball\n\n");
-		
 		static float one[2] = { 0.0f, 0.0f };
 		ImGui::InputFloat2("lowerEdge, higherEdge", one);
 		
 		static float two[2] = { 0.0f, 0.0f };
 		ImGui::InputFloat2("xCoord, yCoord", two);
 		
-		//~ static float f0 = 0.001f;
-		//~ ImGui::InputFloat("##xx", &f0, 0.01f, 1.0f, "%.3f");
+		//~ static float color[4] = { 0.10f, 0.20f, 0.30f, 0.44f };
+		//~ ImGui::InputFloat4("color", color);
+
+		static float color[3] = { 0.10f, 0.20f, 0.30f };		
+		ImGui::InputFloat3("color", color);
 		
-		//~ static float f1 = 0.001f;
-		//~ ImGui::InputFloat("##xx", &f1, 0.01f, 1.0f, "%.3f");
-		
-		//~ static float f2 = 0.001f;
-		//~ ImGui::InputFloat("##xx", &f2, 0.01f, 1.0f, "%.3f");
-		
-		//~ static float f3 = 0.001f;
-		//~ ImGui::InputFloat("##xx", &f3, 0.01f, 1.0f, "%.3f");
-		
-		//~ static float vec4[4] = { 0.10f, 0.20f, 0.30f, 0.44f };
-		static float vec4[4] = { 0.10f, 0.20f, 0.30f, 0.44f };
-		ImGui::InputFloat4("color", vec4);
+		//~ ImGui::InputFloat3("color", circleColor);
 		
 		ImGui::Text("Textures (TODO)");
 		
 		//~ if (ImGui::Button("Make a Ball")) {
-			//~ std::cout << "the Test button was clicked!" << std::endl;
-			
-			//~ static float f0 = 0.001f;
-			//~ ImGui::InputFloat("input float", &f0, 0.01f, 1.0f, "%.3f");
-			
-			//~ static float f1 = 0.001f;
-			//~ ImGui::InputFloat("input float", &f1, 0.01f, 1.0f, "%.3f");
-			
-			//~ static float f2 = 0.001f;
-			//~ ImGui::InputFloat("input float", &f2, 0.01f, 1.0f, "%.3f");
-			
-			//~ static float f3 = 0.001f;
-			//~ ImGui::InputFloat("input float", &f3, 0.01f, 1.0f, "%.3f");
-			
-			//~ static float vec4[4] = { 0.10f, 0.20f, 0.30f, 0.44f };
-			//~ static float vec4[4] = { 0.10f, 0.20f, 0.30f, 0.44f };
-			//~ ImGui::InputFloat4("color", vec4);
-			
-			//~ return;
 		//~ }
-		
-		if (ImGui::Button("Send Uniforms to GPU!")) {	
-		}
-		
-		
 		//~ if (ImGui::Button("Change ball color")) {
-			//~ std::cout << "the Test button was clicked!" << std::endl;
 		//~ }
 		//~ if (ImGui::Button("Change ball fade")) {
-			//~ std::cout << "the Test button was clicked!" << std::endl;
 		//~ }
 		//~ if (ImGui::Button("Change ball thickness")) {
-			//~ std::cout << "the Test button was clicked!" << std::endl;
 		//~ }
 		
-		
-		
-		
-		//~ ImGui::Text("\n\nhello world!");
+		if (ImGui::Button("Send Uniforms to GPU!")) {
+			glUniform1f(shader.getUniformName("lowerEdge"), one[0]);
+			glUniform1f(shader.getUniformName("higherEdge"), one[1]);
+			
+			glUniform1f(shader.getUniformName("xCoord"), two[0]);
+			glUniform1f(shader.getUniformName("yCoord"), two[1]);
+			
+			//~ glUniform4f(shader.getUniformName("color"), color[0], color[1], color[2], color[3]);
+			
+			glUniform3f(shader.getUniformName("color"), color[0], color[1], color[2]);
+			
+			//~ glUniform1f(shader.getUniformName("r"), color[0]);
+			//~ glUniform1f(shader.getUniformName("g"), color[1]);
+			//~ glUniform1f(shader.getUniformName("b"), color[2]);
+			
+			//~ glUniform1f(shader.getUniformName("a"), color[3]);
+		}
 		
 		ImGui::Text("\n\n");
-		
 		ImGui::Text("Update a particular ball and some data about that ball");
-		//~ if (ImGui::Button("Update ball")) {
-		//~ }
-		
 		ImGui::Text("\n\n");
-		
 		
 		//~ static int count = 0;
 		//~ float space = ImGui::GetStyle().ItemInnerSpacing.x;
@@ -183,15 +155,11 @@ int main() {
 			
 		//~ ImGui::Text("%d", count);
 		
-		
 		//~ if (ImGui::Button("Reset counter")) {
 			//~ std::cout << "the Test button was clicked!" << std::endl;
 			
 			//~ count = 0;
 		//~ }
-		
-		
-		
 		
 		//~ if (ImGui::BeginMainMenuBar()) {
 			//~ if (ImGui::BeginMenu("File")) {
@@ -211,24 +179,6 @@ int main() {
 			//~ ImGui::EndMainMenuBar();
 		//~ }
 		
-		//~ static int i0 = 123;
-		//~ ImGui::InputInt("input int", &i0);
-
-		// With custom steps
-		//~ static int i1 = 0;
-		//~ ImGui::InputInt("input int (step)", &i1, 5, 20);
-		
-		//~ static float vec2[2] = { 0.0f, 0.0f };
-		//~ static float vec3[3] = { 0.0f, 0.0f, 0.0f };
-		//~ static float vec4[4] = { 0.10f, 0.20f, 0.30f, 0.44f };
-
-		//~ ImGui::InputFloat2("position", vec2);
-		//~ ImGui::InputFloat3("direction", vec3);
-		//~ ImGui::InputFloat4("color", vec4);
-		
-		//~ static float f0 = 0.001f;
-		//~ ImGui::InputFloat("input float", &f0, 0.01f, 1.0f, "%.3f");
-		
 		ImGui::Text("MVP Matrix");
 		ImGui::SliderFloat3("Translation A", &a.x, 0.0f, 960.0f);
 		ImGui::SliderFloat3("Translation B", &b.x, 0.0f, 960.0f);
@@ -240,10 +190,6 @@ int main() {
         // Make our ball move each time we press the 'e' key
         if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS) {	
 			std::cout << "E KEY WAS PRESSED" << std::endl;			
-			
-			//~ a.x += 50;
-			//~ b.x += 50;
-			
 			glUniform1f(shader.getUniformName("time"), time);		
 		} 
 		       
