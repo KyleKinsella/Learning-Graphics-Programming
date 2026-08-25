@@ -3,25 +3,23 @@
 layout (location = 0) out vec4 fragColor;
 
 #define UV gl_FragCoord.xy
-#define BALLS 6
-//~ #define BALLS_TO_CREATE 5
-
-//~ float lowerEdge, float higherEdge, float xCoord, float yCoord
+#define BALLS 5
 
 uniform float time;
-
 uniform float lowerEdge;
 uniform float higherEdge;
 uniform float xCoord;
 uniform float yCoord;
 uniform vec3 color;
-//~ uniform vec4 color;
 
-//~ uniform float r;
-//~ uniform float g;
-//~ uniform float b;
+//~ in vec3 ourColor;
+//~ in vec2 TexCoord;
 
-//~ uniform float a;
+//~ uniform sampler2D ourTexture;
+
+uniform sampler2D u_Texture;
+
+in vec2 u_TexCoord;
 
 struct Ball {
 	float lowerEdge, higherEdge, xCoord, yCoord;
@@ -59,31 +57,10 @@ void main() {
 	float purpleCircle = createCircle(22.0, 25.0, 420.0, 350.0);
 	float pinkCircle = createCircle(20.0, 23.0, 210.0, 80.0);
 
-	//~ float rgba = r * g * b * a;
-	//~ float rgba = r + g + b + a;
-	
-	//~ float rgb = r + g + b;	// + a;
-	//~ float rgb = r * g * b;	// + a;
-	float guiCircle = createCircle(lowerEdge, higherEdge, xCoord, yCoord);
-	
-	//~ vec3 canvas = vec3(1.0, 1.0, 1.0) * whiteCircle + vec3(1.0, 0.0, 0.0) * redCircle + vec3(0.65, 0.56, 1.0) * purpleCircle + vec3(1.0, 0.55, 0.76) * pinkCircle;
-	
-	//~ vec3 canvas = vec3(1.0, 1.0, 1.0) * whiteCircle + vec3(1.0, 0.0, 0.0) * redCircle + vec3(0.65, 0.56, 1.0) * purpleCircle + vec3(1.0, 0.55, 0.76) * pinkCircle + vec3(1.0, 1.0, 0.30) * guiCircle;
-	//~ vec3 canvas = vec3(1.0, 1.0, 1.0) * whiteCircle + vec3(1.0, 0.0, 0.0) * redCircle + vec3(0.65, 0.56, 1.0) * purpleCircle + vec3(1.0, 0.55, 0.76) * pinkCircle + color * guiCircle;
-	
-	//~ const rgba = r * g * b * a;
-	
-	//~ vec3 canvas = vec3(1.0, 1.0, 1.0) * whiteCircle + vec3(1.0, 0.0, 0.0) * redCircle + vec3(0.65, 0.56, 1.0) * purpleCircle + vec3(1.0, 0.55, 0.76) * pinkCircle + rgba * guiCircle;
-	//~ vec3 canvas = vec3(1.0, 1.0, 1.0) * whiteCircle + vec3(1.0, 0.0, 0.0) * redCircle + vec3(0.65, 0.56, 1.0) * purpleCircle + vec3(1.0, 0.55, 0.76) * pinkCircle + rgb * guiCircle;
-	
-	//~ vec3 canvas = vec3(1.0, 1.0, 1.0) * whiteCircle + vec3(1.0, 0.0, 0.0) * redCircle + vec3(0.65, 0.56, 1.0) * purpleCircle + vec3(1.0, 0.55, 0.76) * pinkCircle + color.rgba * guiCircle;
+	float guiCircle = createCircle(lowerEdge, higherEdge, xCoord, yCoord);	
 	vec3 canvas = vec3(1.0, 1.0, 1.0) * whiteCircle + vec3(1.0, 0.0, 0.0) * redCircle + vec3(0.65, 0.56, 1.0) * purpleCircle + vec3(1.0, 0.55, 0.76) * pinkCircle + color * guiCircle;
 	
-	//~ vec3 canvas = vec3(1.0, 0.0, 0.0) * redCircle + vec3(0.65, 0.56, 1.0) * purpleCircle + vec3(1.0, 0.55, 0.76) * pinkCircle;
-	//~ vec3 canvas = vec3(0.0);
-	
 	Ball balls[BALLS];
-	//~ BALLS_TO_CREATE
 	for (int i = 0; i < BALLS; i++) {
 		balls[i].lowerEdge = 12.0;
 		balls[i].higherEdge = 25.0;
@@ -97,20 +74,53 @@ void main() {
 			balls[i].yCoord -= dropBall(balls[i].yCoord, 130.0);
 		}
 	}
-		
-	//~ balls[BALLS_TO_CREATE].lowerEdge = 12.0;
-	//~ balls[BALLS_TO_CREATE].higherEdge = 50.0;
-	//~ balls[BALLS_TO_CREATE].xCoord = 245.0;
-	//~ balls[BALLS_TO_CREATE].yCoord = 345.0;
-	//~ balls[BALLS_TO_CREATE].color = vec3(1.0, 1.0, 1.0);
-	
-	//~ balls[BALLS_TO_CREATE].yCoord += updateBallsYCoordinate(balls[0], 1*2.0, time);
-	//~ balls[BALLS_TO_CREATE].yCoord -= dropBall(balls[0].yCoord, 150.0);
 	
 	for (int i = 0; i < BALLS; i++) {
 		float circle = createCircle(balls[i]);		
 		canvas += circle * balls[i].color;
 	}
-		
-	fragColor = vec4(canvas, 1.0);
+	
+	//~ vec4 sampledColor = texture(ourTexture, TexCoord);
+	//~ fragColor = sampledColor * vec4(ourColor, 1.0);
+	
+	//~ vec4 textCoord = texture(u_Texture, u_TexCoord);
+	//~ fragColor = canvas * textCoord;
+
+
+
+	//~ fragColor = vec4(canvas, 1.0);
+	
+	
+	
+	
+	
+	//~ fragColor = vec4(UV.x / 1066.0, UV.y / 600.0, 0.0, 1.0);
+
+	
+	vec4 textCoord = texture(u_Texture, u_TexCoord);
+	fragColor = textCoord;
+	
+	//~ fragColor = vec4(textCoord, 1.0);
+	
+	
+	//~ fragColor = canvas - vec3(textCoord);
+	
+	//~ fragColor = redCircle * textCoord;
+	
+	
+	//~ fragColor -= redCircle * textCoord;
+	
+	
+	//~ fragColor = vec4(canvas, 1.0);
+	
+	
+	//~ fragColor += canvas * textCoord;
+	
+	
+	
+	
+	//~ fragColor = canvas;
+	
+	
+	//~ fragColor = vec4(UV / 1066.0, UV / 600.0, 0.0, 1.0);
 }
