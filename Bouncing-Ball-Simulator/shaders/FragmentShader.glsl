@@ -12,13 +12,7 @@ uniform float xCoord;
 uniform float yCoord;
 uniform vec3 color;
 
-//~ in vec3 ourColor;
-//~ in vec2 TexCoord;
-
-//~ uniform sampler2D ourTexture;
-
 uniform sampler2D u_Texture;
-
 in vec2 u_TexCoord;
 
 struct Ball {
@@ -56,8 +50,8 @@ void main() {
 	float redCircle = createCircle(25.0, 80.0, 120.0, 500.0);
 	float purpleCircle = createCircle(22.0, 25.0, 420.0, 350.0);
 	float pinkCircle = createCircle(20.0, 23.0, 210.0, 80.0);
-
-	float guiCircle = createCircle(lowerEdge, higherEdge, xCoord, yCoord);	
+	
+	float guiCircle = createCircle(lowerEdge, higherEdge, xCoord, yCoord);
 	vec3 canvas = vec3(1.0, 1.0, 1.0) * whiteCircle + vec3(1.0, 0.0, 0.0) * redCircle + vec3(0.65, 0.56, 1.0) * purpleCircle + vec3(1.0, 0.55, 0.76) * pinkCircle + color * guiCircle;
 	
 	Ball balls[BALLS];
@@ -80,47 +74,11 @@ void main() {
 		canvas += circle * balls[i].color;
 	}
 	
-	//~ vec4 sampledColor = texture(ourTexture, TexCoord);
-	//~ fragColor = sampledColor * vec4(ourColor, 1.0);
-	
-	//~ vec4 textCoord = texture(u_Texture, u_TexCoord);
-	//~ fragColor = canvas * textCoord;
-
-
-
 	//~ fragColor = vec4(canvas, 1.0);
-	
-	
-	
-	
-	
-	//~ fragColor = vec4(UV.x / 1066.0, UV.y / 600.0, 0.0, 1.0);
-
 	
 	vec4 textCoord = texture(u_Texture, u_TexCoord);
 	fragColor = textCoord;
+	//~ fragColor = guiCircle * textCoord;
 	
-	//~ fragColor = vec4(textCoord, 1.0);
-	
-	
-	//~ fragColor = canvas - vec3(textCoord);
-	
-	//~ fragColor = redCircle * textCoord;
-	
-	
-	//~ fragColor -= redCircle * textCoord;
-	
-	
-	//~ fragColor = vec4(canvas, 1.0);
-	
-	
-	//~ fragColor += canvas * textCoord;
-	
-	
-	
-	
-	//~ fragColor = canvas;
-	
-	
-	//~ fragColor = vec4(UV / 1066.0, UV / 600.0, 0.0, 1.0);
+	//~ fragColor = vec4(UV.x / 1066.0, UV.y / 600, 0.0, 1.0);
 }
