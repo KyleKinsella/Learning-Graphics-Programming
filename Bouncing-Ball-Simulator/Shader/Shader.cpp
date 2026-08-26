@@ -89,19 +89,8 @@ std::string Shader::readShaderFile(const std::string& fileName) {
 
 int Shader::getUniformName(const std::string& uniformName) {
 	int loc = glGetUniformLocation(m_RenderId, uniformName.c_str());
-	
 	if (loc == -1) {
 		std::cout << "Warning: uniform '" << uniformName << "' doesn't exist!" << std::endl;
-	} 
-	
+	} 	
 	return loc;
 }
-
-//~ void Shader::sendUniformValue(const std::string& uniformName, glm::vec3 vec) {	
-	//~ glUniform3f(getUniformName(uniformName), vec.x, vec.y, vec.z);
-//~ }
-
-//~ void Shader::sendUniformValue(const std::string& uniformName, float v0) {
-	//~ glUniform1i(getUniformName(uniformName), v0);
-	//~ glUniform1f(getUniformName(uniformName), v0);
-//~ }
