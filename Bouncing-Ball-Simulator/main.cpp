@@ -1,10 +1,6 @@
 #include "glad/include/glad/glad.h"
 #include <GLFW/glfw3.h>
 
-//~ #include "vendors/imgui/imgui.h"
-//~ #include "vendors/imgui/imgui_impl_opengl3.h"
-//~ #include "vendors/imgui/imgui_impl_glfw.h"
-
 #include <iostream>
 #include <filesystem>
 #include <vector>
@@ -90,12 +86,6 @@ int main() {
 	Shader shader("resources/shaders/VertexShader.glsl", "resources/shaders/FragmentShader.glsl");
 	shader.bind();
 	
-	//~ glm::vec3 a = glm::vec3(200, 200, 0);
-	//~ glm::mat4 proj = glm::ortho(0.0f, 960.0f, 0.0f, 540.0f, -1.0f, 1.0f);
-	//~ glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 0));
-	
-	//~ MVP mvp;
-	
 	ImGui::CreateContext();
 	ImGui_ImplGlfw_InitForOpenGL(window, true);
 	ImGui_ImplOpenGL3_Init("#version 330 core");
@@ -145,12 +135,6 @@ int main() {
 		}
 		ImGui::Text("\n");
 		
-		//~ glm::mat4 model = glm::translate(glm::mat4(1.0f), a);
-       	//~ glm::mat4 matrix = proj * view * model;
-       	
-       	
-       
-       	
         shader.bind();
         glUniform1i(shader.getUniformName("u_Texture"), 0);
         
@@ -188,40 +172,18 @@ int main() {
 		
 			ImGui::Text("\nMVP Matrix");
 			ImGui::SliderFloat2("Texture 1", &a.x, 0.0f, 960.0f);
-		
-			//~ if (ImGui::Button("Disable MVP")) {
-				//~ active_mvp = false;
-			//~ }
-			
-			//~ if (ImGui::Button("Enable MVP")) {
-				//~ active_mvp = true;
-			//~ }
-			
-			//~ if (!active_mvp) {
-				//~ if (ImGui::Button("Enable MVP")) {
-					//~ active_mvp = true;
-				//~ }
-			//~ } else {
-				//~ if (ImGui::Button("Disable MVP")) {
-					//~ active_mvp = false;
-				//~ }
-			//~ }
 		}
 		
 		if (texture) {
 			texture->bindTexture();
 		}
 		
-		//~ ImGui::Text("\nMVP Matrix");
-        //~ ImGui::SliderFloat2("Texture 1", &a.x, 0.0f, 960.0f);
-        //~ mvp.mvpSlider();
-        
         // Make our ball move each time we press the 'e' key
         if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS) {
 			std::cout << "E KEY WAS PRESSED" << std::endl;		
 			glUniform1f(shader.getUniformName("time"), time);
 		}
-				
+						
         //~ glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
         //~ glDrawArrays(GL_TRIANGLES, 0, 4); 
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);

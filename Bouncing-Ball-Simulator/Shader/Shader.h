@@ -1,10 +1,5 @@
 #pragma once
 
-//~ #include <string>
-
-//~ #include "../glad/include/glad/glad.h"
-//~ #include "../vendors/glm/glm.hpp"
-
 #include "../Everyone/all.h"
 
 class Shader {

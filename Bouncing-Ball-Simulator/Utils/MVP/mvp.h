@@ -10,8 +10,7 @@ public:
 	~MVP();
 
 	glm::mat4 computeMvpMatrix(glm::mat4& model);
-	void mvpSlider();
-	
+		
 private:
 	glm::mat4 m_proj, m_view;
 };

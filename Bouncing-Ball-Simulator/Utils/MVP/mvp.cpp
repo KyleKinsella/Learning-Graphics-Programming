@@ -9,7 +9,3 @@ MVP::~MVP() {
 glm::mat4 MVP::computeMvpMatrix(glm::mat4& model) {
 	return m_proj * m_view * model;
 }
-
-void MVP::mvpSlider() {
-	//~ ImGui::SliderFloat2("Texture 1", &m_translation.x, 0.0f, 960.0f);
-}
