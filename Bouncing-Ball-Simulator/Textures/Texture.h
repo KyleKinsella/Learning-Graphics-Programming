@@ -2,10 +2,12 @@
 
 #include "../vendors/stb/stb_image.h"
 
-#include <string>
+//~ #include <string>
 
-#include "../glad/include/glad/glad.h"
-#include <GLFW/glfw3.h>
+//~ #include "../glad/include/glad/glad.h"
+//~ #include <GLFW/glfw3.h>
+
+#include "../Everyone/all.h"
 
 class Texture {
 public:
