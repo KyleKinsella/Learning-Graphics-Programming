@@ -1,9 +1,11 @@
 #pragma once
 
-#include <string>
+//~ #include <string>
 
-#include "../glad/include/glad/glad.h"
-#include "../vendors/glm/glm.hpp"
+//~ #include "../glad/include/glad/glad.h"
+//~ #include "../vendors/glm/glm.hpp"
+
+#include "../Everyone/all.h"
 
 class Shader {
 public:
@@ -17,10 +19,7 @@ public:
 	unsigned int createShader(const std::string& vertexShader, const std::string& fragmentShader);
 	std::string readShaderFile(const std::string& fileName);
 	
-	// Uniforms
-	int getUniformName(const std::string& uniformName);
-	//~ void sendUniformValue(const std::string& uniformName, glm::vec3 vec);
-	//~ void sendUniformValue(const std::string& uniformName, float v0);
+	int getUniformName(const std::string& uniformName);	
 	
 private:
 	unsigned int m_RenderId;
