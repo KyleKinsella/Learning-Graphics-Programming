@@ -1,11 +1,9 @@
 #include "glad/include/glad/glad.h"
 #include <GLFW/glfw3.h>
 
-#include "vendors/imgui/imgui.h"
-#include "vendors/imgui/imgui_impl_opengl3.h"
-#include "vendors/imgui/imgui_impl_glfw.h"
-
-#include "vendors/glm/gtc/matrix_transform.hpp"
+//~ #include "vendors/imgui/imgui.h"
+//~ #include "vendors/imgui/imgui_impl_opengl3.h"
+//~ #include "vendors/imgui/imgui_impl_glfw.h"
 
 #include <iostream>
 #include <filesystem>
@@ -14,6 +12,8 @@
 #include "Circle/Circle.h"
 #include "Shader/Shader.h"
 #include "Textures/Texture.h"
+#include "Utils/MVP/mvp.h"
+#include "Everyone/some.h"
 
 #define SCREEN_WIDTH 2066
 #define SCREEN_HEIGHT 1200
@@ -90,9 +90,11 @@ int main() {
 	Shader shader("resources/shaders/VertexShader.glsl", "resources/shaders/FragmentShader.glsl");
 	shader.bind();
 	
-	glm::vec3 a = glm::vec3(200, 200, 0);
-	glm::mat4 proj = glm::ortho(0.0f, 960.0f, 0.0f, 540.0f, -1.0f, 1.0f);
-	glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 0));
+	//~ glm::vec3 a = glm::vec3(200, 200, 0);
+	//~ glm::mat4 proj = glm::ortho(0.0f, 960.0f, 0.0f, 540.0f, -1.0f, 1.0f);
+	//~ glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 0));
+	
+	//~ MVP mvp;
 	
 	ImGui::CreateContext();
 	ImGui_ImplGlfw_InitForOpenGL(window, true);
@@ -103,6 +105,10 @@ int main() {
 	style.FontSizeBase = 18.0f;
 	
 	bool active_texture = false;
+	bool active_mvp = true;
+
+	MVP mvp;
+	glm::vec3 a = glm::vec3(200, 200, 0);
 	
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window)) {
@@ -139,12 +145,13 @@ int main() {
 		}
 		ImGui::Text("\n");
 		
-		glm::mat4 model = glm::translate(glm::mat4(1.0f), a);
-       	glm::mat4 matrix = proj * view * model;
+		//~ glm::mat4 model = glm::translate(glm::mat4(1.0f), a);
+       	//~ glm::mat4 matrix = proj * view * model;
+       	
+       	
+       
        	
         shader.bind();
-        
-        glUniformMatrix4fv(shader.getUniformName("u_MVP"), 1, GL_FALSE, &matrix[0][0]);        
         glUniform1i(shader.getUniformName("u_Texture"), 0);
         
 		if (ImGui::Button("Load Textures")) {
@@ -152,6 +159,16 @@ int main() {
 		}
 		ImGui::Text("\n");
 		
+		if (ImGui::Button("Disable MVP")) {
+			active_mvp = false;
+		}
+		ImGui::Text("\n");
+	
+		if (ImGui::Button("Enable MVP")) {
+			active_mvp = true;
+		}
+		ImGui::Text("\n");
+				
 		Texture* texture = nullptr;
 		if (active_texture) {
 			const std::vector<std::string> files = getTextures("resources/textures/");
@@ -163,18 +180,48 @@ int main() {
 			}
 		}
 		
+		if (active_mvp) {
+			glm::mat4 model = glm::translate(glm::mat4(1.0f), a);
+			glm::mat4 matrix = mvp.computeMvpMatrix(model);
+			
+			glUniformMatrix4fv(shader.getUniformName("u_MVP"), 1, GL_FALSE, &matrix[0][0]);
+		
+			ImGui::Text("\nMVP Matrix");
+			ImGui::SliderFloat2("Texture 1", &a.x, 0.0f, 960.0f);
+		
+			//~ if (ImGui::Button("Disable MVP")) {
+				//~ active_mvp = false;
+			//~ }
+			
+			//~ if (ImGui::Button("Enable MVP")) {
+				//~ active_mvp = true;
+			//~ }
+			
+			//~ if (!active_mvp) {
+				//~ if (ImGui::Button("Enable MVP")) {
+					//~ active_mvp = true;
+				//~ }
+			//~ } else {
+				//~ if (ImGui::Button("Disable MVP")) {
+					//~ active_mvp = false;
+				//~ }
+			//~ }
+		}
+		
 		if (texture) {
 			texture->bindTexture();
 		}
 		
-        ImGui::SliderFloat2("Texture 1", &a.x, 0.0f, 960.0f);
+		//~ ImGui::Text("\nMVP Matrix");
+        //~ ImGui::SliderFloat2("Texture 1", &a.x, 0.0f, 960.0f);
+        //~ mvp.mvpSlider();
         
         // Make our ball move each time we press the 'e' key
         if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS) {
 			std::cout << "E KEY WAS PRESSED" << std::endl;		
 			glUniform1f(shader.getUniformName("time"), time);
 		}
-		
+				
         //~ glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
         //~ glDrawArrays(GL_TRIANGLES, 0, 4); 
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
