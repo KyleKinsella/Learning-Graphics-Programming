@@ -5,19 +5,27 @@
 #include "vendors/imgui/imgui_impl_opengl3.h"
 #include "vendors/imgui/imgui_impl_glfw.h"
 
-#include "vendors/stb/stb_image.h"
-
 #include "vendors/glm/gtc/matrix_transform.hpp"
 
 #include <iostream>
+#include <filesystem>
+#include <vector>
 
 #include "Circle/Circle.h"
 #include "Shader/Shader.h"
+#include "Textures/Texture.h"
 
 #define SCREEN_WIDTH 2066
 #define SCREEN_HEIGHT 1200
 #define NAME "Bouncing Ball Simulator"
-#define TEXTURE_NAME "resources/textures/er.jpg";
+
+const std::vector<std::string> getTextures(std::string textures) {
+	std::vector<std::string> files;
+	for (const auto& entry : std::filesystem::directory_iterator(textures)) {				
+		files.push_back(entry.path().string());
+	}
+	return files;
+}
 
 int main() {
     GLFWwindow* window;
@@ -65,10 +73,6 @@ int main() {
 	glBindBuffer(GL_ARRAY_BUFFER, buffer);
 	glBufferData(GL_ARRAY_BUFFER, 4 * 4 * sizeof(float), positions, GL_STATIC_DRAW);
 	
-	//~ unsigned int vao;
-	//~ glGenVertexArrays(1, &vao);
-	//~ glBindVertexArray(vao);
-	
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
 	
@@ -86,29 +90,6 @@ int main() {
 	Shader shader("resources/shaders/VertexShader.glsl", "resources/shaders/FragmentShader.glsl");
 	shader.bind();
 	
-	int width, height, bpp;
-	stbi_set_flip_vertically_on_load(1);
-	const std::string& path = TEXTURE_NAME;
-	unsigned char* img = stbi_load(path.c_str(), &width, &height, &bpp, 4);
-	
-	unsigned int texture;
-	glGenTextures(1, &texture);
-	glBindTexture(GL_TEXTURE_2D, texture);
-	
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE); // S and T are the same as X and Y but for textures
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, img);
-	glBindTexture(GL_TEXTURE_2D, 0);
-	
-	if (img)
-		stbi_image_free(img);
-		
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, texture);
-	
 	glm::vec3 a = glm::vec3(200, 200, 0);
 	glm::mat4 proj = glm::ortho(0.0f, 960.0f, 0.0f, 540.0f, -1.0f, 1.0f);
 	glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 0));
@@ -120,6 +101,8 @@ int main() {
 	
 	ImGuiStyle& style = ImGui::GetStyle();
 	style.FontSizeBase = 18.0f;
+	
+	bool active_texture = false;
 	
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window)) {
@@ -144,11 +127,7 @@ int main() {
 		static float color[3] = { 0.10f, 0.20f, 0.30f };	
 		ImGui::InputFloat3("color", color);
 		
-		//~ ImGui::Text("Textures (TODO)");
-
-		//~ ImGui::Text("\n\n");
 		ImGui::Text("\n");
-		
 		if (ImGui::Button("Create Ball")) {
 			glUniform1f(shader.getUniformName("lowerEdge"), one[0]);
 			glUniform1f(shader.getUniformName("higherEdge"), one[1]);
@@ -158,31 +137,7 @@ int main() {
 			
 			glUniform3f(shader.getUniformName("color"), color[0], color[1], color[2]);
 		}
-		
-		//~ ImGui::Text("\n\n");
-        //~ shader.bind();
-        
-		//~ if (ImGui::Button("Create Texture")) {
-			//~ glm::mat4 model = glm::translate(glm::mat4(1.0f), a);
-			//~ glm::mat4 matrix = proj * view * model;
-       	
-			//~ glUniformMatrix4fv(shader.getUniformName("u_MVP"), 1, GL_FALSE, &matrix[0][0]);        
-			//~ glUniform1i(shader.getUniformName("u_Texture"), 0);        
-		//~ }
-		//~ ImGui::SliderFloat2("Texture 1", &a.x, 0.0f, 960.0f);
-
-		//~ ImGui::Text("\n\n");
 		ImGui::Text("\n");
-		
-		//~ ImGui::Text("\n\n");
-		//~ ImGui::Text("Update a particular ball and some data about that ball");
-		//~ ImGui::Text("\n\n");
-		
-		//~ ImGui::Text("MVP Matrix");
-		//~ ImGui::Text("Physics (TODO)");
-		
-		//~ glActiveTexture(GL_TEXTURE0);
-		//~ glBindTexture(GL_TEXTURE_2D, texture);
 		
 		glm::mat4 model = glm::translate(glm::mat4(1.0f), a);
        	glm::mat4 matrix = proj * view * model;
@@ -192,6 +147,26 @@ int main() {
         glUniformMatrix4fv(shader.getUniformName("u_MVP"), 1, GL_FALSE, &matrix[0][0]);        
         glUniform1i(shader.getUniformName("u_Texture"), 0);
         
+		if (ImGui::Button("Load Textures")) {
+			active_texture = true;
+		}
+		ImGui::Text("\n");
+		
+		Texture* texture = nullptr;
+		if (active_texture) {
+			const std::vector<std::string> files = getTextures("resources/textures/");
+			for (int i = 0; i < files.size(); i++) {
+				if (ImGui::Button(files[i].c_str())) {
+					delete texture;
+					texture = new Texture(files[i]);
+				}
+			}
+		}
+		
+		if (texture) {
+			texture->bindTexture();
+		}
+		
         ImGui::SliderFloat2("Texture 1", &a.x, 0.0f, 960.0f);
         
         // Make our ball move each time we press the 'e' key
@@ -201,9 +176,9 @@ int main() {
 		}
 		
         //~ glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-        //~ glDrawArrays(GL_TRIANGLES, 0, 4);
+        //~ glDrawArrays(GL_TRIANGLES, 0, 4); 
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
-                        
+        
 		ImGui::Render();		
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
                 
@@ -217,9 +192,6 @@ int main() {
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
-    
-    glDeleteTextures(1, &texture);
-    //~ glDeleteVertexArrays(1, &vao);
     
     glfwTerminate();
     return 0;
