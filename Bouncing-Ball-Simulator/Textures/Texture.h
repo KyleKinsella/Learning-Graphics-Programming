@@ -4,8 +4,6 @@
 
 #include "../Everyone/all.h"
 
-//~ #include <iostream>
-
 class Texture {
 public:
 	Texture(const std::string path);

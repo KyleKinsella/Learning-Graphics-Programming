@@ -86,9 +86,6 @@ int main() {
 	Shader shader("resources/shaders/VertexShader.glsl", "resources/shaders/FragmentShader.glsl");
 	shader.bind();
 	
-	//~ Texture dead_pool("resources/textures/deadpool.jpg");	
-	//~ Texture elden_ring("resources/textures/er.jpg");
-	
 	ImGui::CreateContext();
 	ImGui_ImplGlfw_InitForOpenGL(window, true);
 	ImGui_ImplOpenGL3_Init("#version 330 core");
@@ -99,11 +96,10 @@ int main() {
 	
 	bool active_texture = false;
 	bool active_mvp = true;
-
+	bool update_ball = false;
+	
 	MVP mvp;
 	glm::vec3 a = glm::vec3(200, 200, 0);
-	//~ glm::vec3 b = glm::vec3(400, 200, 0);
-	//~ glm::vec3 a = glm::vec3(177, 305, 0);
 	
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window)) {
@@ -153,102 +149,49 @@ int main() {
 		}
 		ImGui::Text("\n");
 		
-		//~ if (ImGui::Button(("Create Ball")) && one[0] != 0.0f && one[1] != 0.0f) {
-			//~ std::cout << "array one at index 0 is not 0.0f !" << std::endl;
-			//~ one[0] = 0.0f;
-			//~ one[1] = 0.0f;
-		//~ }
-		
-		static int ballToUpdate = 0;
-		ImGui::InputInt("ballToUpdate", &ballToUpdate);
-		
-		//~ static float lower = 0.0f;
-		//~ ImGui::InputFloat("lower", &lower, 0.01f, 1.0f, "%.3f");
-		
-		//~ static float higher = 0.0f;
-		//~ ImGui::InputFloat("higher", &higher, 0.01f, 1.0f, "%.3f");
-		
-		static float lh[2] = { 0.0f, 0.0f };
-		ImGui::InputFloat2("lower, higher", lh);
-		
-		//~ static float x = 0.0f;
-		//~ ImGui::InputFloat("x", &x, 0.01f, 1.0f, "%.3f");
-		
-		//~ static float y = 0.0f;
-		//~ ImGui::InputFloat("y", &y, 0.01f, 1.0f, "%.3f");
-		
-		static float xy[2] = { 0.0f, 0.0f };
-		ImGui::InputFloat2("x, y", xy);
-		
-		//~ static float red = 0.0f;
-		//~ ImGui::InputFloat("red", &red, 0.01f, 1.0f, "%.3f");
-		
-		//~ static float green = 0.0f;
-		//~ ImGui::InputFloat("green", &green, 0.01f, 1.0f, "%.3f");
-		
-		//~ static float blue = 0.0f;
-		//~ ImGui::InputFloat("blue", &blue, 0.01f, 1.0f, "%.3f");
-
-		static float u_color[3] = { 0.0f, 0.0f, 0.0f };
-		ImGui::InputFloat3("u_color", u_color);
-
-		//~ static float f0 = 0.001f;
-		//~ ImGui::InputFloat("input float", &f0, 0.01f, 1.0f, "%.3f");
-				
-		if (ImGui::Button("Update a Ball")) {
-			glUniform1i(shader.getUniformName("BALL_TO_UPDATE"), ballToUpdate);
-			
-			
-			glUniform1f(shader.getUniformName("updateLowerEdge"), lh[0]);
-			glUniform1f(shader.getUniformName("updateHigherEdge"), lh[1]);
-			
-			glUniform1f(shader.getUniformName("updateXCoord"), xy[0]);
-			glUniform1f(shader.getUniformName("updateYCoord"), xy[1]);
-			
-			glUniform3f(shader.getUniformName("updateColor"), u_color[0], u_color[1], u_color[2]);
-			
-			
-			//~ glUniform1f(shader.getUniformName("updateLowerEdge"), lower);
-			//~ glUniform1f(shader.getUniformName("updateHigherEdge"), higher);
-			
-			//~ glUniform1f(shader.getUniformName("updateXCoord"), x);
-			//~ glUniform1f(shader.getUniformName("updateYCoord"), y);
-			
-			//~ glUniform1f(shader.getUniformName("updateXCoord"), x);
-			//~ glUniform1f(shader.getUniformName("updateYCoord"), y);
-			//~ glUniform1f(shader.getUniformName("updateYCoord"), y);
-			
-			
-			
-			//~ glUniform3f(shader.getUniformName("updateColor"), color[0], color[1], color[2]);
+		if (ImGui::Button("Do you want to Update a Ball ?")) {
+			update_ball = true;
 		}
 		
+		if (ImGui::Button("Do you want to Hide the Update Ball Stuff ?")) {
+			update_ball = false;
+		}
+		
+		static float u_color[3] = { 0.0f, 0.0f, 0.0f };
+		if (update_ball) {
+			static int ballToUpdate = 0;
+			ImGui::InputInt("ballToUpdate", &ballToUpdate);
+			
+			static float lh[2] = { 0.0f, 0.0f };
+			ImGui::InputFloat2("lower, higher", lh);
+			
+			static float xy[2] = { 0.0f, 0.0f };
+			ImGui::InputFloat2("x, y", xy);
+			
+			ImGui::InputFloat3("u_color", u_color);	
+			
+			if (ImGui::Button("Update Ball")) {
+				glUniform1i(shader.getUniformName("BALL_TO_UPDATE"), ballToUpdate);
+				
+				glUniform1f(shader.getUniformName("updateLowerEdge"), lh[0]);
+				glUniform1f(shader.getUniformName("updateHigherEdge"), lh[1]);
+				
+				glUniform1f(shader.getUniformName("updateXCoord"), xy[0]);
+				glUniform1f(shader.getUniformName("updateYCoord"), xy[1]);
+				
+				glUniform3f(shader.getUniformName("updateColor"), u_color[0], u_color[1], u_color[2]);	
+			}
+		}
+		ImGui::Text("\n");
+		
         shader.bind();
-        
-        //~ dead_pool.bindTexture();
-		//~ elden_ring.bindTexture(1);
-        
-        glUniform1i(shader.getUniformName("u_Texture"), 0);
-        //~ glUniform1i(shader.getUniformName("u_Texture1"), 0);
-        //~ glUniform1i(shader.getUniformName("u_Texture2"), 1);
         
 		if (ImGui::Button("Load Textures")) {
 			active_texture = true;
 		}
-		ImGui::Text("\n");
 		
 		if (ImGui::Button("Hide Textures")) {
 			active_texture = false;
-		}
-		ImGui::Text("\n");		
-		
-		if (ImGui::Button("Disable MVP")) {
-			active_mvp = false;
-		}
-		ImGui::Text("\n");
-	
-		if (ImGui::Button("Enable MVP")) {
-			active_mvp = true;
 		}
 		ImGui::Text("\n");
 				
@@ -261,33 +204,25 @@ int main() {
 					texture = new Texture(files[i]);
 				}
 			}
+			ImGui::Text("\n");
+		}
+		
+		if (ImGui::Button("Enable MVP")) {
+			active_mvp = true;
+		}
+		
+		if (ImGui::Button("Disable MVP")) {
+			active_mvp = false;
 		}
 		
 		if (active_mvp) {
 			glm::mat4 modelA = glm::translate(glm::mat4(1.0f), a);
-			
 			glm::mat4 matrix = mvp.computeMvpMatrix(modelA);
 			
-			//~ glm::mat4 matrixA = mvp.computeMvpMatrix(modelA);
-			
-			//~ mvp.computeMvpMatrix(shader, texture, modelA);
-			
-			//~ glm::mat4 modelB = glm::translate(glm::mat4(1.0f), b);
-			
-			//~ glm::mat4 matrixB = mvp.computeMvpMatrix(modelB);
-			
-			//~ mvp.computeMvpMatrix(shader, *texture, modelB);
-			
-			
-			
-			
-			//~ glm::mat4 finalMatrix = modelA * modelB;
-			
 			glUniformMatrix4fv(shader.getUniformName("u_MVP"), 1, GL_FALSE, &matrix[0][0]);
-		
+			
 			ImGui::Text("\nMVP Matrix");
 			ImGui::SliderFloat2("Texture 1", &a.x, 0.0f, 960.0f);
-			//~ ImGui::SliderFloat2("Texture 1", &b.x, 0.0f, 960.0f);
 		}
 		
 		if (texture) {

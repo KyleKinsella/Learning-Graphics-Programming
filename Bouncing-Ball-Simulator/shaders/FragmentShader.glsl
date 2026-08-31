@@ -63,10 +63,6 @@ void main() {
 	vec3 canvas = vec3(1.0, 1.0, 1.0) * whiteCircle + vec3(1.0, 0.0, 0.0) * redCircle + vec3(0.65, 0.56, 1.0) * purpleCircle + vec3(1.0, 0.55, 0.76) * pinkCircle + color * guiCircle;
 		
 	Ball balls[BALLS];
-	//~ if (BALL_TO_UPDATE > BALLS) {
-		//~ return;
-	//~ }
-	
 	for (int i = 0; i < BALLS; i++) {
 		balls[i].lowerEdge = 12.0;
 		balls[i].higherEdge = 25.0;
@@ -75,54 +71,31 @@ void main() {
 		balls[i].color = vec3(1.0, 0.0, 0.0);
 		
 		if (i == BALLS-1) {
-			//~ balls[i].lowerEdge = 120.0;
-			//~ balls[i].higherEdge = 250.0;
 			balls[i].color = vec3(0.0, 1.0, 0.0);
 			balls[i].yCoord += updateBallsYCoordinate(balls[i], i*2.0, time);
 			balls[i].yCoord -= dropBall(balls[i].yCoord, 130.0);
 		}
 		
-		//~ if (BALL_TO_UPDATE > balls.length()) {
-			//~ return;
-		//~ }
-		
+		// this poses a kinda big issue/problem...
 		if (BALL_TO_UPDATE == 0) {
 			continue;
 		}
-		
-		//~ if (BALL_TO_UPDATE == -1) {
-			//~ continue;
-		//~ }
-		
 		
 		balls[BALL_TO_UPDATE].lowerEdge = updateLowerEdge;
 		balls[BALL_TO_UPDATE].higherEdge = updateHigherEdge;
 		balls[BALL_TO_UPDATE].xCoord = updateXCoord;
 		balls[BALL_TO_UPDATE].yCoord = updateYCoord;
 		balls[BALL_TO_UPDATE].color = updateColor;
-		//~ balls[BALL_TO_UPDATE].lowerEdge = updateLowerEdge;
-		
+				
 		balls[BALL_TO_UPDATE].yCoord += updateBallsYCoordinate(balls[BALL_TO_UPDATE], i*2.0, time);
 		balls[BALL_TO_UPDATE].yCoord -= dropBall(balls[BALL_TO_UPDATE].yCoord, 130.0);
-		
-		//~ balls[BALL_TO_UPDATE].color = vec3(1.0, 1.0, 0.20);
-			
-			
-			
-		//~ if (BALL_TO_UPDATE == 4) {
-			//~ balls[BALL_TO_UPDATE].color = vec3(1.0, 1.0, 0.20);
-		//~ }
 	}
-		
+	
 	for (int i = 0; i < BALLS; i++) {
 		float circle = createCircle(balls[i]);		
 		canvas += circle * balls[i].color;
-	}	
+	}		
 	
-	//~ if (BALL_TO_UPDATE == 4) {
-		//~ balls[BALL_TO_UPDATE].color = vec3(1.0, 1.0, 0.20);
-	//~ }
-		
 	fragColor = vec4(canvas, 1.0);
 	
 	//~ vec4 textCoord = texture(u_Texture, u_TexCoord);
