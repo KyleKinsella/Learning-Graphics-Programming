@@ -26,6 +26,7 @@ Texture::~Texture() {
 }
 
 void Texture::bindTexture(unsigned int slot) const {
+	//~ std::cout << "binding texture: " << slot << std::endl;
 	glActiveTexture(GL_TEXTURE0 + slot);
 	glBindTexture(GL_TEXTURE_2D, m_textureId);
 }
