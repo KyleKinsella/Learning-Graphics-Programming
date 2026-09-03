@@ -23,6 +23,60 @@ const std::vector<std::string> getTextures(std::string textures) {
 	return files;
 }
 
+//~ bool active_texture
+//~ void createBall(Shader& shader, bool colorOrTexture) {
+	//~ static float one[2] = { 0.0f, 0.0f };
+	//~ ImGui::InputFloat2("lowerEdge, higherEdge", one);
+
+	//~ static float two[2] = { 0.0f, 0.0f };
+	//~ ImGui::InputFloat2("xCoord, yCoord", two);
+	
+	//~ static float color[3] = { 0.00f, 0.00f, 0.00f };
+	//~ ImGui::InputFloat3("color", color);
+	
+	//~ if (colorOrTexture || !colorOrTexture) {
+		//~ glUniform1f(shader.getUniformName("lowerEdge"), one[0]);
+		//~ glUniform1f(shader.getUniformName("higherEdge"), one[1]);
+		
+		//~ glUniform1f(shader.getUniformName("xCoord"), two[0]);
+		//~ glUniform1f(shader.getUniformName("yCoord"), two[1]);
+	//~ }
+	
+	//~ if (!colorOrTexture) {
+		//~ for (int i = 0; i < 3; i++) {
+			//~ if (color[i] == 0.0f) {			
+				//~ glUniform1f(shader.getUniformName("lowerEdge"), one[0]);
+				//~ glUniform1f(shader.getUniformName("higherEdge"), one[1]);
+				
+				//~ glUniform1f(shader.getUniformName("xCoord"), two[0]);
+				//~ glUniform1f(shader.getUniformName("yCoord"), two[1]);
+								
+				//~ glUniform1i(shader.getUniformName("u_bool"), 0);
+				//~ glUniform1i(shader.getUniformName("u_Texture"), 0);
+				//~ break;
+			//~ }
+				
+			//~ if (color[i] != 0.0f) {
+				//~ color[i] = 0.0f;
+			//~ }
+		//~ }
+	//~ } else {
+		//~ glUniform1i(shader.getUniformName("u_bool"), 1);
+		//~ glUniform3f(shader.getUniformName("color"), color[0], color[1], color[2]);
+	//~ }
+	
+	//~ if (!active_texture) {		
+		//~ glUniform1f(shader.getUniformName("lowerEdge"), one[0]);
+		//~ glUniform1f(shader.getUniformName("higherEdge"), one[1]);
+		
+		//~ glUniform1f(shader.getUniformName("xCoord"), two[0]);
+		//~ glUniform1f(shader.getUniformName("yCoord"), two[1]);
+		
+		//~ glUniform1i(shader.getUniformName("u_bool"), 1);
+		//~ glUniform3f(shader.getUniformName("color"), color[0], color[1], color[2]);
+	//~ }
+//~ }
+
 int main() {
     GLFWwindow* window;
 
@@ -123,31 +177,72 @@ int main() {
 		//~ static float two[2] = { 250.0f, 500.0f };
 		ImGui::InputFloat2("xCoord, yCoord", two);
 		
-		static float color[3] = { 0.10f, 0.20f, 0.30f };
+		//~ static float color[3] = { 0.10f, 0.20f, 0.30f };
+		static float color[3] = { 0.00f, 0.00f, 0.00f };
 		ImGui::InputFloat3("color", color);
 				
-		ImGui::Text("\n");
-		if (ImGui::Button("Create Ball")) {
-			glUniform1f(shader.getUniformName("lowerEdge"), one[0]);
-			glUniform1f(shader.getUniformName("higherEdge"), one[1]);
-			
-			glUniform1f(shader.getUniformName("xCoord"), two[0]);
-			glUniform1f(shader.getUniformName("yCoord"), two[1]);
-			
-			glUniform3f(shader.getUniformName("color"), color[0], color[1], color[2]);
-			
-			// reset, so we can make another ball!
-			//~ one[0] = 0.0f;
-			//~ one[1] = 0.0f;
-			
-			//~ two[0] = 0.0f;
-			//~ two[1] = 0.0f;
-			
-			//~ color[0] = 0.0f;
-			//~ color[1] = 0.0f;
-			//~ color[2] = 0.0f;
+		if (ImGui::Button("Load Textures")) {
+			active_texture = true;
+		}
+		
+		if (ImGui::Button("Hide Textures")) {
+			active_texture = false;
 		}
 		ImGui::Text("\n");
+				
+		Texture* texture = nullptr;
+		if (active_texture) {
+			const std::vector<std::string> files = getTextures("resources/textures/");
+			for (int i = 0; i < files.size(); i++) {
+				if (ImGui::Button(files[i].c_str())) {
+					delete texture;
+					texture = new Texture(files[i]);
+				}
+			}
+			ImGui::Text("\n");
+		}
+		
+		//~ shader.bind();
+		
+		if (ImGui::Button("Create Ball with Texture")) {
+			for (int i = 0; i < 3; i++) {
+				if (color[i] == 0.0f) {			
+					glUniform1f(shader.getUniformName("lowerEdge"), one[0]);
+					glUniform1f(shader.getUniformName("higherEdge"), one[1]);
+					
+					glUniform1f(shader.getUniformName("xCoord"), two[0]);
+					glUniform1f(shader.getUniformName("yCoord"), two[1]);
+									
+					glUniform1i(shader.getUniformName("u_bool"), 0);
+					glUniform1i(shader.getUniformName("u_Texture"), 0);
+					break;
+				}
+				
+				if (color[i] != 0.0f) {
+					color[i] = 0.0f;
+				}
+			}
+		}
+		
+		if (ImGui::Button("Create Ball with Color")) {
+			if (!active_texture) {
+				glUniform1f(shader.getUniformName("lowerEdge"), one[0]);
+				glUniform1f(shader.getUniformName("higherEdge"), one[1]);
+				
+				glUniform1f(shader.getUniformName("xCoord"), two[0]);
+				glUniform1f(shader.getUniformName("yCoord"), two[1]);
+				
+				glUniform1i(shader.getUniformName("u_bool"), 1);
+				glUniform3f(shader.getUniformName("color"), color[0], color[1], color[2]);
+			}
+		}
+		
+		//~ if (ImGui::Button("Create Ball")) {
+			//~ createBall(shader, 0, active_texture);
+			//~ createBall(shader, 0);
+		//~ }		
+		
+		ImGui::Text("\n\nUpdate a Balls Attributes\n");
 		
 		if (ImGui::Button("Do you want to Update a Ball ?")) {
 			update_ball = true;
@@ -186,27 +281,8 @@ int main() {
 		
         shader.bind();
         
-		if (ImGui::Button("Load Textures")) {
-			active_texture = true;
-		}
-		
-		if (ImGui::Button("Hide Textures")) {
-			active_texture = false;
-		}
-		ImGui::Text("\n");
-				
-		Texture* texture = nullptr;
-		if (active_texture) {
-			const std::vector<std::string> files = getTextures("resources/textures/");
-			for (int i = 0; i < files.size(); i++) {
-				if (ImGui::Button(files[i].c_str())) {
-					delete texture;
-					texture = new Texture(files[i]);
-				}
-			}
-			ImGui::Text("\n");
-		}
-		
+		//~ glUniform1i(shader.getUniformName("u_Texture"), 0);
+        
 		if (ImGui::Button("Enable MVP")) {
 			active_mvp = true;
 		}
@@ -248,7 +324,7 @@ int main() {
         /* Poll for and process events */
         glfwPollEvents();
     }
-    
+        
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();

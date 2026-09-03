@@ -24,6 +24,8 @@ in vec2 u_TexCoord;
 
 uniform int BALL_TO_UPDATE;
 
+uniform bool u_bool;
+
 struct Ball {
 	float lowerEdge, higherEdge, xCoord, yCoord;
 	vec3 color;
@@ -96,7 +98,19 @@ void main() {
 		canvas += circle * balls[i].color;
 	}		
 	
-	fragColor = vec4(canvas, 1.0);
+	//~ fragColor = vec4(canvas, 1.0);
+	
+	if (u_bool) {
+		fragColor = vec4(canvas, 1.0);
+	} else {
+		vec4 textCoord = texture(u_Texture, u_TexCoord);
+		//~ fragColor = textCoord;
+		fragColor = guiCircle * textCoord;
+	}
+	
+	//~ if (u_bool == 2) {
+		//~ fragColor = vec4(1.0, 0.0, 0.0, 1.0);
+	//~ }
 	
 	//~ vec4 textCoord = texture(u_Texture, u_TexCoord);
 	//~ fragColor = textCoord;
