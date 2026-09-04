@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-//~ #include "Circle/Circle.h"
+#include "Circle/Circle.h"
 #include "Utils/GUI/gui.h"
 
 #define SCREEN_WIDTH 2066
@@ -67,9 +67,9 @@ int main() {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(unsigned int), indexes, GL_STATIC_DRAW);
 	
-	//~ glm::vec3 circleColor = glm::vec3(1.0, 0.0, 0.0);
-	//~ Circle circle(0, 1, 0, circleColor);
-			
+	glm::vec3 circleColor = glm::vec3(1.0, 0.0, 0.0);
+	Circle circle(12.0f, 25.0f, 120.0f, 400.0f, circleColor);
+	
 	Shader shader("resources/shaders/VertexShader.glsl", "resources/shaders/FragmentShader.glsl");
 	shader.bind();
 	
@@ -91,10 +91,16 @@ int main() {
 		
         // Make our ball move each time we press the 'e' key
         if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS) {
-			std::cout << "E KEY WAS PRESSED" << std::endl;		
+			std::cout << "E KEY WAS PRESSED" << std::endl;
 			glUniform1f(shader.getUniformName("time"), time);
+			
+			float newYVal = circle.updateBallsYCoordinate(circle, 4.0f*2.0f, time);
+			glUniform1f(shader.getUniformName("u_newYVal"), newYVal);
+
+			float result = circle.dropBall(newYVal, 130.0f);			
+			glUniform1f(shader.getUniformName("u_result"), result);
 		}
-						
+				
         //~ glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
         //~ glDrawArrays(GL_TRIANGLES, 0, 4); 
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
