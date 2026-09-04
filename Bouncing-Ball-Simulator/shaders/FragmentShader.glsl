@@ -65,10 +65,10 @@ void main() {
 	vec3 canvas = vec3(1.0, 1.0, 1.0) * whiteCircle + vec3(1.0, 0.0, 0.0) * redCircle + vec3(0.65, 0.56, 1.0) * purpleCircle + vec3(1.0, 0.55, 0.76) * pinkCircle + color * guiCircle;
 		
 	Ball balls[BALLS];
-	for (int i = 0; i < balls.length(); i++) {
-		balls[i].lowerEdge = 1.0;
-		balls[i].higherEdge = 2.0;
-		balls[i].xCoord = 100.0 + float(i) * 5.0;
+	for (int i = 0; i < BALLS; i++) {
+		balls[i].lowerEdge = 12.0;
+		balls[i].higherEdge = 25.0;
+		balls[i].xCoord = 100.0 + float(i) * 130.0;
 		balls[i].yCoord = 400.0;
 		balls[i].color = vec3(1.0, 0.0, 0.0);
 		
@@ -79,22 +79,22 @@ void main() {
 		}
 		
 		// this poses a kinda big issue/problem...
-		//~ if (BALL_TO_UPDATE == 0) {
-			//~ continue;
-		//~ }
+		if (BALL_TO_UPDATE == 0) {
+			continue;
+		}
 		
 		balls[BALL_TO_UPDATE].lowerEdge = updateLowerEdge;
 		balls[BALL_TO_UPDATE].higherEdge = updateHigherEdge;
 		balls[BALL_TO_UPDATE].xCoord = updateXCoord;
 		balls[BALL_TO_UPDATE].yCoord = updateYCoord;
 		balls[BALL_TO_UPDATE].color = updateColor;
-				
+		
 		balls[BALL_TO_UPDATE].yCoord += updateBallsYCoordinate(balls[BALL_TO_UPDATE], i*2.0, time);
 		balls[BALL_TO_UPDATE].yCoord -= dropBall(balls[BALL_TO_UPDATE].yCoord, 130.0);
 	}
 	
-	for (int i = 0; i < balls.length(); i++) {
-		float circle = createCircle(balls[i]);
+	for (int i = 0; i < BALLS; i++) {
+		float circle = createCircle(balls[i]);		
 		canvas += circle * balls[i].color;
 	}
 	
