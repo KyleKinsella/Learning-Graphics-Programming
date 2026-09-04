@@ -23,60 +23,6 @@ const std::vector<std::string> getTextures(std::string textures) {
 	return files;
 }
 
-//~ bool active_texture
-//~ void createBall(Shader& shader, bool colorOrTexture) {
-	//~ static float one[2] = { 0.0f, 0.0f };
-	//~ ImGui::InputFloat2("lowerEdge, higherEdge", one);
-
-	//~ static float two[2] = { 0.0f, 0.0f };
-	//~ ImGui::InputFloat2("xCoord, yCoord", two);
-	
-	//~ static float color[3] = { 0.00f, 0.00f, 0.00f };
-	//~ ImGui::InputFloat3("color", color);
-	
-	//~ if (colorOrTexture || !colorOrTexture) {
-		//~ glUniform1f(shader.getUniformName("lowerEdge"), one[0]);
-		//~ glUniform1f(shader.getUniformName("higherEdge"), one[1]);
-		
-		//~ glUniform1f(shader.getUniformName("xCoord"), two[0]);
-		//~ glUniform1f(shader.getUniformName("yCoord"), two[1]);
-	//~ }
-	
-	//~ if (!colorOrTexture) {
-		//~ for (int i = 0; i < 3; i++) {
-			//~ if (color[i] == 0.0f) {			
-				//~ glUniform1f(shader.getUniformName("lowerEdge"), one[0]);
-				//~ glUniform1f(shader.getUniformName("higherEdge"), one[1]);
-				
-				//~ glUniform1f(shader.getUniformName("xCoord"), two[0]);
-				//~ glUniform1f(shader.getUniformName("yCoord"), two[1]);
-								
-				//~ glUniform1i(shader.getUniformName("u_bool"), 0);
-				//~ glUniform1i(shader.getUniformName("u_Texture"), 0);
-				//~ break;
-			//~ }
-				
-			//~ if (color[i] != 0.0f) {
-				//~ color[i] = 0.0f;
-			//~ }
-		//~ }
-	//~ } else {
-		//~ glUniform1i(shader.getUniformName("u_bool"), 1);
-		//~ glUniform3f(shader.getUniformName("color"), color[0], color[1], color[2]);
-	//~ }
-	
-	//~ if (!active_texture) {		
-		//~ glUniform1f(shader.getUniformName("lowerEdge"), one[0]);
-		//~ glUniform1f(shader.getUniformName("higherEdge"), one[1]);
-		
-		//~ glUniform1f(shader.getUniformName("xCoord"), two[0]);
-		//~ glUniform1f(shader.getUniformName("yCoord"), two[1]);
-		
-		//~ glUniform1i(shader.getUniformName("u_bool"), 1);
-		//~ glUniform3f(shader.getUniformName("color"), color[0], color[1], color[2]);
-	//~ }
-//~ }
-
 int main() {
     GLFWwindow* window;
 
@@ -170,15 +116,12 @@ int main() {
 		
 		ImGui::Text("Make a Ball\n\n");
 		static float one[2] = { 0.0f, 0.0f };
-		//~ static float one[2] = { 80.0f, 350.0f };
 		ImGui::InputFloat2("lowerEdge, higherEdge", one);
 		
 		static float two[2] = { 0.0f, 0.0f };
-		//~ static float two[2] = { 250.0f, 500.0f };
 		ImGui::InputFloat2("xCoord, yCoord", two);
 		
-		//~ static float color[3] = { 0.10f, 0.20f, 0.30f };
-		static float color[3] = { 0.00f, 0.00f, 0.00f };
+		static float color[3] = { 0.10f, 0.20f, 0.30f };
 		ImGui::InputFloat3("color", color);
 				
 		if (ImGui::Button("Load Textures")) {
@@ -202,46 +145,21 @@ int main() {
 			ImGui::Text("\n");
 		}
 		
-		//~ shader.bind();
+		glUniform1f(shader.getUniformName("lowerEdge"), one[0]);
+		glUniform1f(shader.getUniformName("higherEdge"), one[1]);
+		
+		glUniform1f(shader.getUniformName("xCoord"), two[0]);
+		glUniform1f(shader.getUniformName("yCoord"), two[1]);
 		
 		if (ImGui::Button("Create Ball with Texture")) {
-			for (int i = 0; i < 3; i++) {
-				if (color[i] == 0.0f) {			
-					glUniform1f(shader.getUniformName("lowerEdge"), one[0]);
-					glUniform1f(shader.getUniformName("higherEdge"), one[1]);
-					
-					glUniform1f(shader.getUniformName("xCoord"), two[0]);
-					glUniform1f(shader.getUniformName("yCoord"), two[1]);
-									
-					glUniform1i(shader.getUniformName("u_bool"), 0);
-					glUniform1i(shader.getUniformName("u_Texture"), 0);
-					break;
-				}
-				
-				if (color[i] != 0.0f) {
-					color[i] = 0.0f;
-				}
-			}
+			glUniform1i(shader.getUniformName("u_bool"), 0);
+			glUniform1i(shader.getUniformName("u_Texture"), 0);
 		}
 		
 		if (ImGui::Button("Create Ball with Color")) {
-			if (!active_texture) {
-				glUniform1f(shader.getUniformName("lowerEdge"), one[0]);
-				glUniform1f(shader.getUniformName("higherEdge"), one[1]);
-				
-				glUniform1f(shader.getUniformName("xCoord"), two[0]);
-				glUniform1f(shader.getUniformName("yCoord"), two[1]);
-				
-				glUniform1i(shader.getUniformName("u_bool"), 1);
-				glUniform3f(shader.getUniformName("color"), color[0], color[1], color[2]);
-			}
+			glUniform1i(shader.getUniformName("u_bool"), 1);
+			glUniform3f(shader.getUniformName("color"), color[0], color[1], color[2]);
 		}
-		
-		//~ if (ImGui::Button("Create Ball")) {
-			//~ createBall(shader, 0, active_texture);
-			//~ createBall(shader, 0);
-		//~ }		
-		
 		ImGui::Text("\n\nUpdate a Balls Attributes\n");
 		
 		if (ImGui::Button("Do you want to Update a Ball ?")) {
@@ -251,8 +169,8 @@ int main() {
 		if (ImGui::Button("Do you want to Hide the Update Ball Stuff ?")) {
 			update_ball = false;
 		}
-		
-		static float u_color[3] = { 0.0f, 0.0f, 0.0f };
+		ImGui::Text("\n");
+
 		if (update_ball) {
 			static int ballToUpdate = 0;
 			ImGui::InputInt("ballToUpdate", &ballToUpdate);
@@ -263,8 +181,11 @@ int main() {
 			static float xy[2] = { 0.0f, 0.0f };
 			ImGui::InputFloat2("x, y", xy);
 			
-			ImGui::InputFloat3("u_color", u_color);	
+			static float u_color[3] = { 0.0f, 0.0f, 0.0f };
+			ImGui::InputFloat3("u_color", u_color);
 			
+			ImGui::Text("\n");
+				
 			if (ImGui::Button("Update Ball")) {
 				glUniform1i(shader.getUniformName("BALL_TO_UPDATE"), ballToUpdate);
 				
@@ -280,8 +201,6 @@ int main() {
 		ImGui::Text("\n");
 		
         shader.bind();
-        
-		//~ glUniform1i(shader.getUniformName("u_Texture"), 0);
         
 		if (ImGui::Button("Enable MVP")) {
 			active_mvp = true;
@@ -300,7 +219,7 @@ int main() {
 			ImGui::Text("\nMVP Matrix");
 			ImGui::SliderFloat2("Texture 1", &a.x, 0.0f, 960.0f);
 		}
-		
+				
 		if (texture) {
 			texture->bindTexture();
 		}
