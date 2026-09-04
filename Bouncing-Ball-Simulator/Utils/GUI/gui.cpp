@@ -1,6 +1,6 @@
 #include "gui.h"
 
-Gui::Gui(GLFWwindow* window) : m_a(200, 200, 0), m_one{0.0f, 0.0f}, m_two{0.0f, 0.0f}, m_color{0.10f, 0.20f, 0.30f } {
+Gui::Gui(GLFWwindow* window) : m_a(200, 200, 0), m_loweredge_and_higheredge{0.0f, 0.0f}, m_xcoord_and_ycoord{0.0f, 0.0f}, m_ball_color{0.10f, 0.20f, 0.30f}, m_update_lower_and_higher{0.0f, 0.0f}, m_update_x_and_y{0.0f, 0.0f}, m_update_color{0.0f, 0.0f, 0.0f}, m_ballToUpdate(0) {
 	ImGui::CreateContext();
 	ImGui_ImplGlfw_InitForOpenGL(window, true);
 	ImGui_ImplOpenGL3_Init("#version 330 core");
@@ -27,10 +27,10 @@ void Gui::initImGuiEveryFrame() {
 void Gui::makeABall(const char* title) {
 	ImGui::Text(title);
 	
-	ImGui::InputFloat2("lowerEdge, higherEdge", m_one);
-	ImGui::InputFloat2("xCoord, yCoord", m_two);
-	ImGui::InputFloat3("color", m_color);
-				
+	ImGui::InputFloat2("lowerEdge, higherEdge", m_loweredge_and_higheredge);
+	ImGui::InputFloat2("xCoord, yCoord", m_xcoord_and_ycoord);
+	ImGui::InputFloat3("color", m_ball_color);
+	
 	if (ImGui::Button("Load Textures")) {
 		m_active_texture = true;
 	}
@@ -59,11 +59,11 @@ Texture* Gui::initTexture() {
 }
 
 void Gui::sendUniforms(Shader& shader) {
-	glUniform1f(shader.getUniformName("lowerEdge"), m_one[0]);
-	glUniform1f(shader.getUniformName("higherEdge"), m_one[1]);
+	glUniform1f(shader.getUniformName("lowerEdge"), m_loweredge_and_higheredge[0]);
+	glUniform1f(shader.getUniformName("higherEdge"), m_loweredge_and_higheredge[1]);
 	
-	glUniform1f(shader.getUniformName("xCoord"), m_two[0]);
-	glUniform1f(shader.getUniformName("yCoord"), m_two[1]);
+	glUniform1f(shader.getUniformName("xCoord"), m_xcoord_and_ycoord[0]);
+	glUniform1f(shader.getUniformName("yCoord"), m_xcoord_and_ycoord[1]);
 	
 	if (ImGui::Button("Create Ball with Texture")) {
 		glUniform1i(shader.getUniformName("u_bool"), 0);
@@ -72,12 +72,12 @@ void Gui::sendUniforms(Shader& shader) {
 	
 	if (ImGui::Button("Create Ball with Color")) {
 		glUniform1i(shader.getUniformName("u_bool"), 1);
-		glUniform3f(shader.getUniformName("color"), m_color[0], m_color[1], m_color[2]);
+		glUniform3f(shader.getUniformName("color"), m_ball_color[0], m_ball_color[1], m_ball_color[2]);
 	}
 }
 
-void Gui::updateABall(Shader& shader) {
-	ImGui::Text("\n\nUpdate a Balls Attributes\n");
+void Gui::updateABall(Shader& shader, const char* title) {
+	ImGui::Text(title);
 		
 	if (ImGui::Button("Do you want to Update a Ball ?")) {
 		m_update_ball = true;
@@ -89,30 +89,23 @@ void Gui::updateABall(Shader& shader) {
 	ImGui::Text("\n");
 	
 	if (m_update_ball) {
-		static int ballToUpdate = 0;
-		ImGui::InputInt("ballToUpdate", &ballToUpdate);
-		
-		static float lh[2] = { 0.0f, 0.0f };
-		ImGui::InputFloat2("lower, higher", lh);
-		
-		static float xy[2] = { 0.0f, 0.0f };
-		ImGui::InputFloat2("x, y", xy);
-		
-		static float u_color[3] = { 0.0f, 0.0f, 0.0f };
-		ImGui::InputFloat3("u_color", u_color);
+		ImGui::InputInt("ballToUpdate", &m_ballToUpdate);
+		ImGui::InputFloat2("lower, higher", m_update_lower_and_higher);
+		ImGui::InputFloat2("x, y", m_update_x_and_y);		
+		ImGui::InputFloat3("u_color", m_update_color);
 		
 		ImGui::Text("\n");
-			
+		
 		if (ImGui::Button("Update Ball")) {
-			glUniform1i(shader.getUniformName("BALL_TO_UPDATE"), ballToUpdate);
+			glUniform1i(shader.getUniformName("BALL_TO_UPDATE"), m_ballToUpdate);
 			
-			glUniform1f(shader.getUniformName("updateLowerEdge"), lh[0]);
-			glUniform1f(shader.getUniformName("updateHigherEdge"), lh[1]);
+			glUniform1f(shader.getUniformName("updateLowerEdge"), m_update_lower_and_higher[0]);
+			glUniform1f(shader.getUniformName("updateHigherEdge"), m_update_lower_and_higher[1]);
 			
-			glUniform1f(shader.getUniformName("updateXCoord"), xy[0]);
-			glUniform1f(shader.getUniformName("updateYCoord"), xy[1]);
+			glUniform1f(shader.getUniformName("updateXCoord"), m_update_x_and_y[0]);
+			glUniform1f(shader.getUniformName("updateYCoord"), m_update_x_and_y[1]);
 			
-			glUniform3f(shader.getUniformName("updateColor"), u_color[0], u_color[1], u_color[2]);	
+			glUniform3f(shader.getUniformName("updateColor"), m_update_color[0], m_update_color[1], m_update_color[2]);	
 		}
 	}
 	ImGui::Text("\n");
@@ -140,8 +133,8 @@ void Gui::useMVP(Shader& shader) {
 	}
 }
 
-void Gui::init(Shader& shader, const char* title) {
-	makeABall(title);
+void Gui::init(Shader& shader, const char* title1, const char* title2) {
+	makeABall(title1);
 	
 	Texture* texture = initTexture();
 	if (texture) {
@@ -149,7 +142,7 @@ void Gui::init(Shader& shader, const char* title) {
 	}
 	
 	sendUniforms(shader);
-	updateABall(shader);
+	updateABall(shader, title2);
 	
 	shader.bind();
 	

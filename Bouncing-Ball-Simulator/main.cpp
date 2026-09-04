@@ -86,7 +86,7 @@ int main() {
         glClear(GL_COLOR_BUFFER_BIT);
         
 		gui.initImGuiEveryFrame();
-		gui.init(shader, "Make a ball\n\n");
+		gui.init(shader, "Make a ball\n\n", "\n\nUpdate a Balls Attributes");
 		gui.drawImGuiToScreen();
 		
         // Make our ball move each time we press the 'e' key
