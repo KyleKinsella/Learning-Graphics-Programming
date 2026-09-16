@@ -1,13 +1,13 @@
-#include "rtweekend.h"
+#include "book1/rtweekend.h"
 
-#include "../book2/bvh.h"
-#include "camera.h"
-#include "hittable.h"
-#include "hittable_list.h"
-#include "material.h"
-#include "../book2/quad.h"
-#include "sphere.h"
-#include "../book2/texture.h"
+#include "book2/bvh.h"
+#include "book1/camera.h"
+#include "book1/hittable.h"
+#include "book1/hittable_list.h"
+#include "book1/material.h"
+#include "book2/quad.h"
+#include "book1/sphere.h"
+#include "book2/texture.h"
 
 void bouncing_spheres() {
 	hittable_list world;
